@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TrimIt</string>
+    <string name="signup">Sign up</string>
+    <string name="login">Log in</string>
+    <string name="welcome">Welcome</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_pwd">Forgotten password</string>
+</resources>
