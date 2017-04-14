@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">TrimIt</string>
+    <string name="signup">Sign up</string>
+    <string name="login">Log in</string>
+    <string name="welcome">Welcome</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_pwd">Forgotten password</string>
+    <string name="error_field_empty">Should not be empty</string>
+    <string name="accept_terms">By signing up, I agree to TRIM-IT\'S Terms of Service</string>
+    <string name="et_first_name">First name</string>
+    <string name="et_last_name">Last name</string>
+    <string name="et_email">Email</string>
+    <string name="et_password">Password</string>
+    <string name="et_password_confirm">Confirm password</string>
+    <string name="error_passwords_not_match">Passwords don\'t match</string>
+    <string name="et_birthday">DD/MM/YY</string>
+    <string name="et_barber_type">Barbershop</string>
+    <string name="et_gender">Gender</string>
+    <string name="not_implemented">Not implemented yet</string>
+    <string name="error_field_not_valid">Not valid</string>
+
+    <string-array name="gender_array">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="barber_type_array">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+
+    <string name="client_id">AndroidFreelancerClient</string>
+    <string name="client_secret">cGfa2k*GrOMpfkdonfes!jz87f</string>
+    <string name="base_url">https://api.trimitapp.co.uk/v1-dev</string>
+
+
+
+</resources>
