@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
@@ -25,15 +26,15 @@ public class SignupPasswordActivity extends BaseActivity {
     @Override
     public void setupFields() {
         etField1.setHint(getString(R.string.et_password));
-        etField1.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        etField1.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD);
+        etField1.setTransformationMethod(PasswordTransformationMethod.getInstance());
         etField1.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         etField1.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                    etField1.setSelected(false);
-                    etField2.setSelected(true);
+                    if(checkFieldNotEmpty(etField1)) etField2.requestFocus();
                     handled = true;
                 }
                 return handled;
@@ -41,15 +42,18 @@ public class SignupPasswordActivity extends BaseActivity {
         });
 
         etField2.setHint(getString(R.string.et_password_confirm));
-        etField2.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        etField2.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD);
+        etField1.setTransformationMethod(PasswordTransformationMethod.getInstance());
         etField2.setImeOptions(EditorInfo.IME_ACTION_SEND);
         etField2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    hideSoftKeyboard();
-                    onClick(btnNext);
+                    if(checkFieldsCorrect()) {
+                        hideSoftKeyboard();
+                        onClick(btnNext);
+                    }
                     handled = true;
                 }
                 return handled;

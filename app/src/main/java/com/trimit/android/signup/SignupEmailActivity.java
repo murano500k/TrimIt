@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -51,7 +52,7 @@ public class SignupEmailActivity extends BaseActivity {
         if(textEmail.isEmpty()) {
             etField2.setError(getString(R.string.error_field_empty));
             return false;
-        } else if(!textEmail.contains("@") || !textEmail.contains(".")){
+        } else if(!isValidEmail(textEmail)){
             etField2.setError(getString(R.string.error_field_not_valid));
             return false;
         } else {
@@ -64,5 +65,8 @@ public class SignupEmailActivity extends BaseActivity {
     public void nextActivity() {
         Log.d(TAG, "nextActivity: SignupPasswordActivity");
         startActivity(new Intent(this, SignupPasswordActivity.class));
+    }
+    public boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 }

@@ -63,6 +63,13 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     public abstract boolean checkFieldsCorrect();
     public abstract void nextActivity();
 
+    public boolean checkFieldNotEmpty(EditText et){
+        if(et.getText().toString().isEmpty()) {
+            et.setError(getString(R.string.error_field_empty));
+            return false;
+        }else return true;
+    }
+
 
 
 

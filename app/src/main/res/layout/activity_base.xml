@@ -28,7 +28,10 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/et_field2" />
+        app:layout_constraintBottom_toTopOf="@+id/et_field2"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:nextFocusForward="@id/et_field2"/>
 
     <EditText
         android:id="@+id/et_field2"
@@ -40,7 +43,10 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/text_auto_complete" />
+        app:layout_constraintBottom_toTopOf="@+id/text_auto_complete"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:nextFocusForward="@id/text_auto_complete"/>
 
     <AutoCompleteTextView
         android:id="@+id/text_auto_complete"
@@ -53,7 +59,10 @@
         app:layout_constraintBottom_toTopOf="@+id/btn_next"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        />
 
 
     <ImageView

@@ -56,8 +56,7 @@ public class SignupNameActivity extends BaseActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                    etField1.setSelected(false);
-                    etField2.setSelected(true);
+                    if(checkFieldNotEmpty(etField1)) etField2.requestFocus();
                     handled = true;
                 }
                 return handled;
@@ -72,8 +71,10 @@ public class SignupNameActivity extends BaseActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    hideSoftKeyboard();
-                    onClick(btnNext);
+                    if(checkFieldsCorrect()){
+                        hideSoftKeyboard();
+                        onClick(btnNext);
+                    }
                     handled = true;
                 }
                 return handled;
