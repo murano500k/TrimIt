@@ -12,10 +12,15 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.trimit.android.model.Account;
+import com.trimit.android.model.UserCreate;
+import com.trimit.android.net.NetworkUtils;
 import com.trimit.android.signup.SignupNameActivity;
 
-public class MainActivity extends AppCompatActivity {
+import org.json.JSONException;
 
+public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     private LinearLayout mDotsLayout;
     private ViewPager mViewPager;
     private int[] mLayouts;
@@ -41,7 +46,17 @@ public class MainActivity extends AppCompatActivity {
         mViewPagerAdapter = new MyViewPagerAdapter();
         mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.addOnPageChangeListener(viewPagerPageChangeListener);
-        //new NetworkUtils(this).getUsers();
+        test();
+    }
+    public void test(){
+        NetworkUtils networkUtils=new NetworkUtils(this);
+        Account account= networkUtils.createAccount("kllkj", "egeg", "qwe1qqq@www.com", "qwerty", "2017-02-18 16:04");
+        UserCreate user=networkUtils.createUser(account, "Male", "1990-05-04", 3);
+        try {
+            networkUtils.emailExists("murano500k@gmail.com");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
     public void onClick(View v){
         switch (v.getId()){

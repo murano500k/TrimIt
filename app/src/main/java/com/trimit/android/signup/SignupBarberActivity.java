@@ -2,7 +2,10 @@ package com.trimit.android.signup;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.trimit.android.R;
@@ -16,23 +19,40 @@ public class SignupBarberActivity extends BaseActivity {
         setNextButtonBg(R.drawable.btn_signup_finished);
         showTermsMessage();
     }
+
+
     @Override
-    public void setupFields() {
-        etField1.setVisibility(View.INVISIBLE);
-        etField2.setHint(getString(R.string.et_barber_type));
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+        setBg(R.drawable.bg_signup_barber);
     }
 
     @Override
-    public void setBg() {
-        content.setBackground(getResources().getDrawable(R.drawable.bg_signup_barber));
+    public void setupFields() {
+        textAutoComplete.setVisibility(View.VISIBLE);
+        textAutoComplete.setHint(getString(R.string.et_barber_type));
+        // TODO: 4/19/17 change barber types
+        String[] barbers=getResources().getStringArray(R.array.barber_type_array);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.select_dialog_singlechoice, barbers);
+        textAutoComplete.setThreshold(1);
+        textAutoComplete.setAdapter(adapter);
+        textAutoComplete.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event){
+                textAutoComplete.showDropDown();
+                return true;
+            }
+        });
     }
+
+
 
     @Override
     public boolean checkFieldsCorrect() {
-        // TODO: 4/18/17 check barber type
-        String textBarber = etField2.getText().toString();
+        String textBarber = textAutoComplete.getText().toString();
         if(textBarber.isEmpty()) {
-            etField2.setError(getString(R.string.error_field_empty));
+            textAutoComplete.setError(getString(R.string.error_field_empty));
             return false;
         } else {
             PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_BARBER_TYPE, textBarber).apply();

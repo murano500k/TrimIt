@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
@@ -19,6 +20,12 @@ public class SignupNameActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+        setBg(R.drawable.bg_signup_name);
+    }
     @Override
     public boolean checkFieldsCorrect(){
         String textField1=null;
@@ -48,6 +55,8 @@ public class SignupNameActivity extends BaseActivity {
 
     @Override
     public void setupFields() {
+        etField1.setVisibility(View.VISIBLE);
+        etField2.setVisibility(View.VISIBLE);
         etField1.setHint(getString(R.string.et_first_name));
         etField1.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
         etField1.setImeOptions(EditorInfo.IME_ACTION_NEXT);
@@ -82,8 +91,4 @@ public class SignupNameActivity extends BaseActivity {
         });
     }
 
-    @Override
-    public void setBg() {
-        content.setBackground(getResources().getDrawable(R.drawable.bg_signup_name));
-    }
 }

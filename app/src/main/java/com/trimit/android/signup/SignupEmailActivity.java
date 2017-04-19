@@ -12,6 +12,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.trimit.android.R;
+import com.trimit.android.utils.InputUtils;
 import com.trimit.android.utils.PrefsUtils;
 
 public class SignupEmailActivity extends BaseActivity {
@@ -23,7 +24,7 @@ public class SignupEmailActivity extends BaseActivity {
 
     @Override
     public void setupFields() {
-        etField1.setVisibility(View.INVISIBLE);
+        etField2.setVisibility(View.VISIBLE);
         etField2.setHint(getString(R.string.et_email));
         etField2.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         etField2.setImeOptions(EditorInfo.IME_ACTION_SEND);
@@ -40,10 +41,11 @@ public class SignupEmailActivity extends BaseActivity {
             }
         });
     }
-
     @Override
-    public void setBg() {
-        content.setBackground(getResources().getDrawable(R.drawable.bg_signup_email));
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+        setBg(R.drawable.bg_signup_email);
     }
 
     @Override
@@ -52,7 +54,7 @@ public class SignupEmailActivity extends BaseActivity {
         if(textEmail.isEmpty()) {
             etField2.setError(getString(R.string.error_field_empty));
             return false;
-        } else if(!isValidEmail(textEmail)){
+        } else if(!InputUtils.isValidEmail(textEmail)){
             etField2.setError(getString(R.string.error_field_not_valid));
             return false;
         } else {

@@ -25,9 +25,9 @@
         <activity android:name=".signup.SignupNameActivity" />
         <activity android:name=".signup.SignupEmailActivity" />
         <activity android:name=".signup.SignupPasswordActivity" />
-        <activity android:name=".signup.SignupBirthdayActivity" />
+        <activity android:name=".signup.SignupBirthdayActivity" android:exported="true"/>
         <activity android:name=".signup.SignupBarberActivity" />
-        <activity android:name=".signup.SignupGenderActivity"></activity>
+        <activity android:name=".signup.SignupGenderActivity" android:exported="true"/>
     </application>
 
 </manifest>

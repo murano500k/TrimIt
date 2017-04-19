@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
@@ -13,32 +14,42 @@ import com.trimit.android.utils.PrefsUtils;
 public class SignupGenderActivity extends BaseActivity {
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+        setBg(R.drawable.bg_signup_gender);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
     @Override
     public void setupFields() {
-        etField1.setVisibility(View.GONE);
-        etField2.setVisibility(View.GONE);
+        Log.d(TAG, "setupFields: ");
         textAutoComplete.setVisibility(View.VISIBLE);
         textAutoComplete.setHint(getString(R.string.et_gender));
-        String[] genders = getResources().getStringArray(R.array.gender_array);
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, genders);
-        textAutoComplete.setAdapter(adapter);
-    }
 
-    @Override
-    public void setBg() {
-        content.setBackground(getResources().getDrawable(R.drawable.bg_signup_gender));
+        String[] genders=getResources().getStringArray(R.array.gender_array);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.select_dialog_singlechoice, genders);
+
+        textAutoComplete.setThreshold(1);
+        textAutoComplete.setAdapter(adapter);
+
+        textAutoComplete.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event){
+                textAutoComplete.showDropDown();
+                return true;
+            }
+        });
     }
 
     @Override
     public boolean checkFieldsCorrect() {
-        String textGender = etField2.getText().toString();
+        String textGender = textAutoComplete.getText().toString();
         if(textGender.isEmpty()) {
-            etField2.setError(getString(R.string.error_field_empty));
+            textAutoComplete.setError(getString(R.string.error_field_empty));
             return false;
         } else {
             PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_GENDER, textGender).apply();

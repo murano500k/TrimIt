@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
@@ -24,7 +25,18 @@ public class SignupPasswordActivity extends BaseActivity {
 
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+        setBg(R.drawable.bg_signup_password);
+    }
+
+
+    @Override
     public void setupFields() {
+
+        etField1.setVisibility(View.VISIBLE);
+        etField2.setVisibility(View.VISIBLE);
         etField1.setHint(getString(R.string.et_password));
         etField1.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD);
         etField1.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -43,7 +55,7 @@ public class SignupPasswordActivity extends BaseActivity {
 
         etField2.setHint(getString(R.string.et_password_confirm));
         etField2.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD);
-        etField1.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        etField2.setTransformationMethod(PasswordTransformationMethod.getInstance());
         etField2.setImeOptions(EditorInfo.IME_ACTION_SEND);
         etField2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -86,10 +98,5 @@ public class SignupPasswordActivity extends BaseActivity {
     public void nextActivity() {
         Log.d(TAG, "nextActivity: SignupBirthdayActivity");
         startActivity(new Intent(this, SignupBirthdayActivity.class));
-    }
-
-    @Override
-    public void setBg() {
-        content.setBackground(getResources().getDrawable(R.drawable.bg_signup_password));
     }
 }

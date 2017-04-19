@@ -2,14 +2,17 @@ package com.trimit.android;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.trimit.android.utils.InputUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,6 +32,35 @@ public class LoginActivity extends AppCompatActivity {
         etEmail=(EditText)findViewById(R.id.et_email);
         etPassword=(EditText)findViewById(R.id.et_password);
         textForgotPwd=(TextView)findViewById(R.id.text_forgot_pwd);
+        setup();
+    }
+
+    public void setup(){
+        etEmail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        etEmail.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        etEmail.setOnEditorActionListener((v, actionId, event) -> {
+            boolean handled = false;
+            if (actionId == EditorInfo.IME_ACTION_NEXT) {
+
+                if(InputUtils.isValidEmail(etEmail.getText().toString())) etPassword.requestFocus();
+                else etEmail.setError(getString(R.string.error_field_not_valid));
+
+                handled = true;
+            }
+            return handled;
+        });
+
+        etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD);
+        etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+        etPassword.setImeOptions(EditorInfo.IME_ACTION_SEND);
+        etPassword.setOnEditorActionListener((v, actionId, event) -> {
+            boolean handled = false;
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                onClick();
+                handled = true;
+            }
+            return handled;
+        });
 
         RxView.clicks(btnBack)
                 .debounce(500, TimeUnit.MILLISECONDS)
@@ -39,35 +71,44 @@ public class LoginActivity extends AppCompatActivity {
         RxView.clicks(btnLogin)
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aVoid -> {
-                    Log.d(TAG, "loginClicked");
-                    boolean emailValid=isValidEmail(etEmail.getText().toString());
-                    boolean pwdValid=etPassword.getText().toString().length()>0;
-                    if (!emailValid) {
-                        etEmail.setError("Invalid Email Address");
-                    }
-                    if(!pwdValid){
-                        etPassword.setError("Invalid Password");
-                    }
-                    if(emailValid && pwdValid) actionLogin(etEmail.getText().toString(), etPassword.getText().toString());
-                });
+                .subscribe(aVoid -> onClick());
+        textForgotPwd.setEnabled(true);
         RxView.clicks(textForgotPwd)
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aVoid -> {
                     Log.d(TAG, "forgotClicked");
-                    boolean emailValid=isValidEmail(etEmail.getText().toString());
+                    boolean emailValid= InputUtils.isValidEmail(etEmail.getText().toString());
                     if (!emailValid) {
                         etEmail.setError("Invalid Email Address");
-                    }
-                    if(emailValid) actionForgotPassword(etEmail.getText().toString());
+                    }else actionForgotPassword(etEmail.getText().toString());
                 });
-        RxView.hovers(btnLogin)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(motionEvent -> {
-                    if(motionEvent.getAction()== MotionEvent.ACTION_DOWN) btnLogin.setImageResource(R.drawable.btn_login);
-                    else if(motionEvent.getAction()==MotionEvent.ACTION_UP) btnLogin.setImageResource(R.drawable.img_login_yellow);
-                });
+    }
+
+    private boolean checkFieldsCorrect(){
+        String textEmail=null;
+        String textPassword=null;
+        textEmail = etEmail.getText().toString();
+        if(textEmail.isEmpty()) {
+            etEmail.setError(getString(R.string.error_field_empty));
+            return false;
+        }else if(!InputUtils.isValidEmail(textEmail)){
+            etEmail.setError(getString(R.string.error_field_not_valid));
+            return false;
+        }
+        textPassword=etPassword.getText().toString();
+        if(textPassword.isEmpty()) {
+            etPassword.setError(getString(R.string.error_field_empty));
+            return false;
+        }
+        return true;
+    }
+
+
+
+    public void onClick(){
+        Log.d(TAG, "loginClicked");
+        if(checkFieldsCorrect()) actionLogin(etEmail.getText().toString(), etPassword.getText().toString());
     }
 
     private void actionLogin(String s, String s1) {
@@ -86,12 +127,5 @@ public class LoginActivity extends AppCompatActivity {
         super.onResume();
 
 
-    }
-    public final boolean isValidEmail(CharSequence target) {
-        if (target == null) {
-            return false;
-        } else {
-            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
-        }
     }
 }
