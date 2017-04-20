@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.trimit.android.R;
+import com.trimit.android.net.RetroUtils;
 
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -26,6 +27,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     protected ImageView btnNext, btnBack;
     protected TextView textAcceptTerms;
     private BitmapDrawable bitmapDrawable;
+    public RetroUtils retroUtils;
 
 
     @Override
@@ -41,6 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         textAcceptTerms=(TextView) findViewById(R.id.text_accept_terms);
         btnNext.setOnClickListener(this);
         btnBack.setOnClickListener(this);
+        retroUtils=new RetroUtils(this);
         setupFields();
 
         if(savedInstanceState!=null){

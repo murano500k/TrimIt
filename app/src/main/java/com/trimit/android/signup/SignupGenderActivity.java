@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.trimit.android.R;
@@ -41,6 +42,17 @@ public class SignupGenderActivity extends BaseActivity {
             public boolean onTouch(View v, MotionEvent event){
                 textAutoComplete.showDropDown();
                 return true;
+            }
+        });
+        textAutoComplete.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                onClick(textAutoComplete);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }

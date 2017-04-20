@@ -4,9 +4,6 @@ package com.trimit.android.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class UserCreate {
 
 
@@ -21,25 +18,22 @@ public class UserCreate {
 
     @SerializedName("loyalty_points")
     @Expose
-    private Integer loyaltyPoints;
+    private String loyaltyPoints;
 
     @SerializedName("barber_type_id")
     @Expose
-    private Integer barberTypeId;
+    private String barberTypeId;
 
-    @SerializedName("accounts")
+    @SerializedName("account")
     @Expose
-    private List<Account> accounts;
+    private AccountCreate account;
 
-    public UserCreate() {
-        this.accounts = new ArrayList<>();
-    }
 
-    public Integer getLoyaltyPoints() {
+    public String getLoyaltyPoints() {
         return loyaltyPoints;
     }
 
-    public void setLoyaltyPoints(Integer loyaltyPoints) {
+    public void setLoyaltyPoints(String loyaltyPoints) {
         this.loyaltyPoints = loyaltyPoints;
     }
 
@@ -59,20 +53,20 @@ public class UserCreate {
         this.gender = gender;
     }
 
-    public Integer getBarberTypeId() {
+    public String getBarberTypeId() {
         return barberTypeId;
     }
 
-    public void setBarberTypeId(Integer barberTypeId) {
+    public void setBarberTypeId(String barberTypeId) {
         this.barberTypeId = barberTypeId;
     }
 
-    public void addAccount(Account account){
-        this.accounts.add(account);
+    public void setAccount(AccountCreate account){
+        this.account=account;
     }
 
-    public List<Account> getAccounts() {
-        return accounts;
+    public AccountCreate getAccount() {
+        return account;
     }
 
     @Override
@@ -82,7 +76,7 @@ public class UserCreate {
                 ", dob='" + dob + '\'' +
                 ", loyaltyPoints=" + loyaltyPoints +
                 ", barberTypeId=" + barberTypeId +
-                ", accounts=" + accounts +
+                ", account=" + account +
                 '}';
     }
 }

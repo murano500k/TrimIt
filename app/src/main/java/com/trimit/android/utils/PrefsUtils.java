@@ -14,8 +14,9 @@ public class PrefsUtils {
     public static final String PREFS_KEY_BIRTHDAY = "PREFS_KEY_BIRTHDAY";
     public static final String PREFS_KEY_GENDER = "PREFS_KEY_GENDER";
     public static final String PREFS_KEY_BARBER_TYPE = "PREFS_KEY_BARBER_TYPE";
-    public static final String PREFS_KEY_ACCESS_TOKEN = "PREFS_KEY_BARBER_TYPE";
+    public static final String PREFS_KEY_ACCESS_TOKEN = "PREFS_KEY_ACCESS_TOKEN";
     public static final String PREFS_KEY_TOKEN_TIMESTAMP = "PREFS_KEY_TOKEN_TIMESTAMP";
+    public static final String PREFS_KEY_PASSWORD = "PREFS_KEY_PASSWORD";
 
 
     public static void setStringValue(Context  context, String key , String value){

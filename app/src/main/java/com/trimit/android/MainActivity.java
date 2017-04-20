@@ -12,12 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.trimit.android.model.Account;
-import com.trimit.android.model.UserCreate;
-import com.trimit.android.net.NetworkUtils;
 import com.trimit.android.signup.SignupNameActivity;
-
-import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -46,18 +41,9 @@ public class MainActivity extends AppCompatActivity {
         mViewPagerAdapter = new MyViewPagerAdapter();
         mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.addOnPageChangeListener(viewPagerPageChangeListener);
-        test();
+        //test();
     }
-    public void test(){
-        NetworkUtils networkUtils=new NetworkUtils(this);
-        Account account= networkUtils.createAccount("kllkj", "egeg", "qwe1qqq@www.com", "qwerty", "2017-02-18 16:04");
-        UserCreate user=networkUtils.createUser(account, "Male", "1990-05-04", 3);
-        try {
-            networkUtils.emailExists("murano500k@gmail.com");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
+
     public void onClick(View v){
         switch (v.getId()){
             case R.id.btn_login:
@@ -75,8 +61,9 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < mDots.length; i++) {
             mDots[i] = new TextView(this);
             mDots[i].setText(".");
-            mDots[i].setTextSize(35);
+            mDots[i].setTextSize(64);
             mDots[i].setTextColor(getResources().getColor(R.color.colorDotInactive));
+            mDots[i].setAlpha(0.6f);
             mDotsLayout.addView(mDots[i]);
         }
 

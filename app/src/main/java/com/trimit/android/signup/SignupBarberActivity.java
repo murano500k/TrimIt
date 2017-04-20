@@ -1,15 +1,24 @@
 package com.trimit.android.signup;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.trimit.android.LoginActivity;
 import com.trimit.android.R;
+import com.trimit.android.model.ResponceUserCreate;
+import com.trimit.android.net.RetroUtils;
 import com.trimit.android.utils.PrefsUtils;
+
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 public class SignupBarberActivity extends BaseActivity {
 
@@ -44,6 +53,17 @@ public class SignupBarberActivity extends BaseActivity {
                 return true;
             }
         });
+        textAutoComplete.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                onClick(textAutoComplete);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 
@@ -62,10 +82,28 @@ public class SignupBarberActivity extends BaseActivity {
 
     @Override
     public void nextActivity() {
-        Toast.makeText(this, getString(R.string.not_implemented), Toast.LENGTH_SHORT).show();
-        /*
-        Log.d(TAG, "nextActivity: SignupPasswordActivity");
-        startActivity(new Intent(this, SignupPasswordActivity.class));*/
-        // TODO: 4/18/17 finish register
+        Toast.makeText(this, "registering...", Toast.LENGTH_SHORT).show();
+        RetroUtils retroUtils =new RetroUtils(this);
+        retroUtils.createUserFromPrefs().subscribe(new Consumer<ResponceUserCreate>() {
+            @Override
+            public void accept(@NonNull ResponceUserCreate userCreateResponce) throws Exception {
+                Log.d(TAG, "accept: "+userCreateResponce);
+                Log.d(TAG, "userId: "+userCreateResponce.getUserCreateResponce().getUserId());
+                hideSoftKeyboard();
+                startActivity(new Intent(SignupBarberActivity.this,LoginActivity.class));
+                finish();
+            }
+        }, new Consumer<Throwable>() {
+            @Override
+            public void accept(@NonNull Throwable throwable) throws Exception {
+                Log.e(TAG, "error: "+throwable.getMessage());
+                throwable.printStackTrace();
+                new AlertDialog.Builder(SignupBarberActivity.this)
+                        .setTitle("error")
+                        .setMessage(throwable.getMessage())
+                        .create().show();
+                hideSoftKeyboard();
+            }
+        });
     }
 }

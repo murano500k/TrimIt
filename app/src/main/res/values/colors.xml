@@ -8,8 +8,8 @@
     <color name="colorAccentLight">#fff263</color>
     <color name="colorTextPrimary">#f9f9f9</color>
     <color name="colorTextAccent">#f9f9f9</color>
-    <color name="colorDotActive">#3f3f3f</color>
-    <color name="colorDotInactive">#f9f9f9</color>
+    <color name="colorDotInactive">#3f3f3f</color>
+    <color name="colorDotActive">#f9f9f9</color>
 
 
 
