@@ -89,7 +89,7 @@ public class SignupPasswordActivity extends BaseActivity {
             etField2.setError(getString(R.string.error_passwords_not_match));
             return false;
         } else {
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_LAST_NAME, textField2).apply();
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_PASSWORD, textField2).apply();
         }
         return true;
     }

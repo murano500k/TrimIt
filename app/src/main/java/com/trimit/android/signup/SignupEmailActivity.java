@@ -58,9 +58,19 @@ public class SignupEmailActivity extends BaseActivity {
             etField2.setError(getString(R.string.error_field_not_valid));
             return false;
         } else {
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_EMAIL, textEmail).apply();
+            retroUtils.checkEmailObservable(textEmail).subscribe(emailExistsResponce -> {
+                if (emailExistsResponce.getEmailExists()) {
+                    etField2.setError(getString(R.string.error_email_in_use));
+                } else {
+                    PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_EMAIL, textEmail).apply();
+                    nextActivity();
+                }
+            }, throwable -> {
+                throwable.printStackTrace();
+                etField2.setError(getString(R.string.error_field_not_valid));
+            });
         }
-        return true;
+        return false;
     }
 
     @Override

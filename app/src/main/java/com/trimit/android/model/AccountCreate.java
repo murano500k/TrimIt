@@ -1,10 +1,14 @@
-
 package com.trimit.android.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Account {
+/**
+ * Created by artem on 4/19/17.
+ */
+
+public class AccountCreate {
+
 
     @SerializedName("first_name")
     @Expose
@@ -18,11 +22,25 @@ public class Account {
     @Expose
     private String email;
 
+    @SerializedName("password")
+    @Expose
+    private String password;
+
     @SerializedName("timestamp")
     @Expose
     private String timestamp;
-    private String password;
 
+    public AccountCreate() {
+    }
+
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
     public String getLastName() {
         return lastName;
@@ -40,12 +58,12 @@ public class Account {
         this.email = email;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getPassword() {
+        return password;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getTimestamp() {
@@ -54,24 +72,5 @@ public class Account {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", timestamp='" + timestamp + '\'' +
-                ", password='" + password + '\'' +
-                '}';
     }
 }

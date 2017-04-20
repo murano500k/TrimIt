@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TrimIt</string>
+    <string name="app_name">Trim-It</string>
     <string name="signup">Sign up</string>
     <string name="login">Log in</string>
     <string name="welcome">Welcome</string>
@@ -21,9 +21,9 @@
     <string name="error_field_not_valid">Not valid</string>
 
     <string-array name="gender_array">
-        <item>Male</item>
-        <item>Female</item>
-        <item>Other</item>
+        <item>male</item>
+        <item>female</item>
+        <item>other</item>
     </string-array>
     <string-array name="barber_type_array">
         <item>1</item>
@@ -34,7 +34,10 @@
     <string name="client_id">AndroidFreelancerClient</string>
     <string name="client_secret">cGfa2k*GrOMpfkdonfes!jz87f</string>
     <string name="base_url">https://api.trimitapp.co.uk/v1-dev</string>
-
+    <string name="error_email_in_use">Email is in use</string>
+    <string name="error_email_not_exist">Email does not exist</string>
+    <string name="error">Error</string>
+    <string name="reset_password_success">Reset password link was sent to:  </string>
 
 
 </resources>

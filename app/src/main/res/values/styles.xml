@@ -7,6 +7,9 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorPrimary">@color/colorTextPrimary</item>
+        <item name="android:textColorSecondary">@color/colorTextAccent</item>
+        <item name="android:editTextBackground">@drawable/et_bg</item>
+        <item name="android:editTextColor">@color/colorTextAccent</item>
+        <item name="android:textColorHint">@color/colorTextPrimary</item>
     </style>
-
 </resources>
