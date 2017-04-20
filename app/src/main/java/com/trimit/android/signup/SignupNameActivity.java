@@ -1,7 +1,6 @@
 package com.trimit.android.signup;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
@@ -11,50 +10,14 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.trimit.android.R;
+import com.trimit.android.SignupBaseActivity;
 import com.trimit.android.utils.PrefsUtils;
 
-public class SignupNameActivity extends BaseActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart: ");
-        setBg(R.drawable.bg_signup_name);
-    }
-    @Override
-    public boolean checkFieldsCorrect(){
-        String textField1=null;
-        String textField2=null;
-        textField1 = etField1.getText().toString();
-        if(textField1.isEmpty()) {
-            etField1.setError(getString(R.string.error_field_empty));
-            return false;
-        } else {
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_FIRST_NAME, textField1).apply();
-        }
-        textField2= etField2.getText().toString();
-        if(textField2.isEmpty()) {
-            etField2.setError(getString(R.string.error_field_empty));
-            return false;
-        } else {
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_LAST_NAME, textField2).apply();
-        }
-        return true;
-    }
-
-    @Override
-    public void nextActivity() {
-        Log.d(TAG, "nextActivity: SignupEmailActivity");
-        startActivity(new Intent(this, SignupEmailActivity.class));
-    }
+public class SignupNameActivity extends SignupBaseActivity {
 
     @Override
     public void setupFields() {
+        setQuestion(getString(R.string.text_signup_name));
         etField1.setVisibility(View.VISIBLE);
         etField2.setVisibility(View.VISIBLE);
         etField1.setHint(getString(R.string.et_first_name));
@@ -90,5 +53,34 @@ public class SignupNameActivity extends BaseActivity {
             }
         });
     }
+
+    @Override
+    public boolean checkFieldsCorrect(){
+        String textField1=null;
+        String textField2=null;
+        textField1 = etField1.getText().toString();
+        if(textField1.isEmpty()) {
+            etField1.setError(getString(R.string.error_field_empty));
+            return false;
+        } else {
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_FIRST_NAME, textField1).apply();
+        }
+        textField2= etField2.getText().toString();
+        if(textField2.isEmpty()) {
+            etField2.setError(getString(R.string.error_field_empty));
+            return false;
+        } else {
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_LAST_NAME, textField2).apply();
+        }
+        return true;
+    }
+
+    @Override
+    public void nextActivity() {
+        Log.d(TAG, "nextActivity: SignupEmailActivity");
+        startActivity(new Intent(this, SignupEmailActivity.class));
+    }
+
+
 
 }

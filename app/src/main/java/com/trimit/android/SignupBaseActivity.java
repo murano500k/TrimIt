@@ -1,6 +1,6 @@
-package com.trimit.android.signup;
+package com.trimit.android;
 
-import android.graphics.drawable.BitmapDrawable;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,12 +9,15 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.trimit.android.R;
 import com.trimit.android.net.RetroUtils;
+import com.trimit.android.utils.CustomEditText;
 
-public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener {
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+public abstract class SignupBaseActivity extends AppCompatActivity implements View.OnClickListener {
 
     protected static final String TAG = "BaseActivity";
 
@@ -22,30 +25,34 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
     private static final String BUNDLE_FIELD2 = "BUNDLE_FIELD2";
 
     protected View content;
-    protected EditText etField1, etField2;
+    protected CustomEditText etField1, etField2;
     protected AutoCompleteTextView textAutoComplete;
     protected ImageView btnNext, btnBack;
     protected TextView textAcceptTerms;
-    private BitmapDrawable bitmapDrawable;
     public RetroUtils retroUtils;
-
-
+    private TextView textQuestion;
+    private ProgressBar progressBar;
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
         content=findViewById(R.id.content);
-        etField1=(EditText)findViewById(R.id.et_field1);
-        etField2=(EditText)findViewById(R.id.et_field2);
+        textQuestion=(TextView) findViewById(R.id.text_question);
+        etField1=(CustomEditText)findViewById(R.id.et_field1);
+        etField2=(CustomEditText)findViewById(R.id.et_field2);
         textAutoComplete =(AutoCompleteTextView)findViewById(R.id.text_auto_complete);
         btnNext=(ImageView) findViewById(R.id.btn_next);
         btnBack=(ImageView) findViewById(R.id.btn_back);
         textAcceptTerms=(TextView) findViewById(R.id.text_accept_terms);
         btnNext.setOnClickListener(this);
         btnBack.setOnClickListener(this);
+        progressBar=(ProgressBar) findViewById(R.id.progress);
         retroUtils=new RetroUtils(this);
         setupFields();
-
         if(savedInstanceState!=null){
             if(savedInstanceState.containsKey(BUNDLE_FIELD1)){
                 etField1.setText(savedInstanceState.getString(BUNDLE_FIELD1, null));
@@ -55,36 +62,12 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
             }
         }
     }
-    public void setBg(int bgId){
-        bitmapDrawable = (BitmapDrawable) getResources().getDrawable(bgId);
-        content.setBackground(bitmapDrawable);
+
+
+    public void setQuestion(String question){
+        textQuestion.setText(question);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume: ");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause: ");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d(TAG, "onStop: ");
-        recycleBg();
-    }
-
-    private void recycleBg(){
-        if (bitmapDrawable!=null && bitmapDrawable.getBitmap()!=null) {
-            Log.d(TAG, "recycleBg: will recycle");
-            bitmapDrawable.getBitmap().recycle();
-        }else Log.d(TAG, "recycleBg: will not recycle");
-    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if(etField1.getVisibility()==View.VISIBLE && !etField1.getText().toString().isEmpty()) outState.putString(BUNDLE_FIELD1, etField1.getText().toString());

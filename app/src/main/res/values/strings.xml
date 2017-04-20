@@ -5,7 +5,7 @@
     <string name="welcome">Welcome</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="forgot_pwd">Forgotten password</string>
+    <string name="forgot_pwd"><u>Forgotten password</u></string>
     <string name="error_field_empty">Should not be empty</string>
     <string name="accept_terms">By signing up, I agree to TRIM-IT\'S Terms of Service</string>
     <string name="et_first_name">First name</string>
@@ -38,6 +38,14 @@
     <string name="error_email_not_exist">Email does not exist</string>
     <string name="error">Error</string>
     <string name="reset_password_success">Reset password link was sent to:  </string>
+
+    <string name="text_signup_name">What\'s your name?</string>
+    <string name="text_signup_email">Your email too?</string>
+    <string name="text_signup_password">Create a password</string>
+    <string name="text_signup_dob">Birthday?</string>
+    <string name="text_signup_gender">Gender?</string>
+    <string name="text_signup_barber"></string>
+    <string name="label_pwd_reset">Enter yur email to reset your password</string>
 
 
 </resources>

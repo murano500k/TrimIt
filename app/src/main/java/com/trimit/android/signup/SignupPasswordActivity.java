@@ -1,7 +1,6 @@
 package com.trimit.android.signup;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -13,28 +12,15 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.trimit.android.R;
+import com.trimit.android.SignupBaseActivity;
 import com.trimit.android.utils.PrefsUtils;
 
-public class SignupPasswordActivity extends BaseActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart: ");
-        setBg(R.drawable.bg_signup_password);
-    }
+public class SignupPasswordActivity extends SignupBaseActivity {
 
 
     @Override
     public void setupFields() {
-
+        setQuestion(getString(R.string.text_signup_password));
         etField1.setVisibility(View.VISIBLE);
         etField2.setVisibility(View.VISIBLE);
         etField1.setHint(getString(R.string.et_password));

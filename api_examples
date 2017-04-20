@@ -1,0 +1,30 @@
+[user] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [user_id] => 8
+                                    [gender] => Male
+                                    [dob] => 2003-08-03
+                                    [loyalty_points] => 12
+                                    [barber_type_id] => 3
+                                    [account_id] => 22
+                                    [account] => Array
+                                        (
+                                            [first_name] => Peter
+                                            [last_name] => Lloyd
+                                            [email] => abc@live.com
+                                            [timestamp] => 2016-09-03 14:47:33
+                                        )
+
+                                    [photos] => Array
+                                        (
+                                            [profile_picture] => Array
+                                                (
+                                                    [url] => https://s3-eu-west-1.amazonaws.com/trim-it-main-bucket/images/58e2464a396c31491224138-896.jpg
+                                                )
+
+                                        )
+
+                                )
+
+                        )

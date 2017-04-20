@@ -14,18 +14,23 @@ import android.widget.TextView;
 
 import com.trimit.android.signup.SignupNameActivity;
 
-public class MainActivity extends AppCompatActivity {
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
+public class WelcomeActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private LinearLayout mDotsLayout;
     private ViewPager mViewPager;
     private int[] mLayouts;
     private TextView[] mDots;
     private MyViewPagerAdapter mViewPagerAdapter;
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_welcome);
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mDotsLayout = (LinearLayout) findViewById(R.id.layout_dots);
         mLayouts = new int[]{
@@ -47,10 +52,10 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View v){
         switch (v.getId()){
             case R.id.btn_login:
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
                 break;
             case R.id.btn_signup:
-                startActivity(new Intent(MainActivity.this, SignupNameActivity.class));
+                startActivity(new Intent(WelcomeActivity.this, SignupNameActivity.class));
                 break;
         }
     }

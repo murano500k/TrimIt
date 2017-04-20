@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.trimit.android">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".App"
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:hardwareAccelerated="false"
-        android:largeHeap="true">
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme">
+        <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,13 +22,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-
         <activity android:name=".signup.SignupNameActivity" />
         <activity android:name=".signup.SignupEmailActivity" />
         <activity android:name=".signup.SignupPasswordActivity" />
-        <activity android:name=".signup.SignupBirthdayActivity" android:exported="true"/>
+        <activity
+            android:name=".signup.SignupBirthdayActivity"
+            android:exported="true" />
         <activity android:name=".signup.SignupBarberActivity" />
-        <activity android:name=".signup.SignupGenderActivity" android:exported="true"/>
+        <activity
+            android:name=".signup.SignupGenderActivity"
+            android:exported="true" />
+        <activity android:name=".AccountActivity"></activity>
+        <activity android:name=".PasswordResetActivity"></activity>
     </application>
 
 </manifest>

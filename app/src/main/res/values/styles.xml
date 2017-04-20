@@ -11,5 +11,26 @@
         <item name="android:editTextBackground">@drawable/et_bg</item>
         <item name="android:editTextColor">@color/colorTextAccent</item>
         <item name="android:textColorHint">@color/colorTextPrimary</item>
+        <item name="android:textColor">@color/colorTextPrimary</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:textViewStyle">@style/AppTheme.Widget.TextView</item>
+        <item name="android:editTextStyle">@style/AppTheme.Widget.EditText</item>
+
+
     </style>
+
+    <style name="AppTheme.Widget"/>
+
+    <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
+        <item name="fontPath">fonts/Gotham-Light.otf</item>
+    </style>
+    <style name="AppTheme.Widget.EditText" parent="android:Widget.Holo.Light.EditText">
+        <item name="fontPath">fonts/Gotham-Light.otf</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.Bold" parent="AppTheme.Widget.TextView">
+        <item name="fontPath">fonts/Gotham-Medium.otf</item>
+    </style>
+
+
 </resources>

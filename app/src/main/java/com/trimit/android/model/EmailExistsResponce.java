@@ -27,4 +27,6 @@ public class EmailExistsResponce extends Responce {
     public void setEmailExists(Boolean emailExists) {
         this.emailExists = emailExists;
     }
+
+
 }

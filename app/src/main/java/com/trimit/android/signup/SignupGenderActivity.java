@@ -1,7 +1,6 @@
 package com.trimit.android.signup;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -10,29 +9,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.trimit.android.R;
+import com.trimit.android.SignupBaseActivity;
 import com.trimit.android.utils.PrefsUtils;
 
-public class SignupGenderActivity extends BaseActivity {
+public class SignupGenderActivity extends SignupBaseActivity {
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart: ");
-        setBg(R.drawable.bg_signup_gender);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
     @Override
     public void setupFields() {
         Log.d(TAG, "setupFields: ");
+        setQuestion(getString(R.string.text_signup_gender));
+
         textAutoComplete.setVisibility(View.VISIBLE);
         textAutoComplete.setHint(getString(R.string.et_gender));
 
         String[] genders=getResources().getStringArray(R.array.gender_array);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.select_dialog_singlechoice, genders);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,R.layout.auto_complete_list_item, genders);
 
         textAutoComplete.setThreshold(1);
         textAutoComplete.setAdapter(adapter);
