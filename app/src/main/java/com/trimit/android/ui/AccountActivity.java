@@ -1,8 +1,10 @@
-package com.trimit.android;
+package com.trimit.android.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.trimit.android.R;
 
 public class AccountActivity extends AppCompatActivity {
 

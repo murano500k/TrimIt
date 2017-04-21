@@ -1,4 +1,4 @@
-package com.trimit.android.net;
+package com.trimit.android.utils.net;
 
 import com.trimit.android.model.EmailExistsResponce;
 import com.trimit.android.model.Responce;

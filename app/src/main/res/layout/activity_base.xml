@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_signup_gradient_v2"
-    tools:context="com.trimit.android.SignupBaseActivity"
+    tools:context="com.trimit.android.ui.SignupBaseActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="25dp">
 

@@ -33,7 +33,7 @@
 
     <string name="client_id">AndroidFreelancerClient</string>
     <string name="client_secret">cGfa2k*GrOMpfkdonfes!jz87f</string>
-    <string name="base_url">https://api.trimitapp.co.uk/v1-dev</string>
+    <string name="base_url">https://api.trimitapp.co.uk/v1-dev/</string>
     <string name="error_email_in_use">Email is in use</string>
     <string name="error_email_not_exist">Email does not exist</string>
     <string name="error">Error</string>

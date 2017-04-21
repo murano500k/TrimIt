@@ -1,4 +1,4 @@
-package com.trimit.android;
+package com.trimit.android.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,8 +12,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.trimit.android.net.RetroUtils;
+import com.trimit.android.App;
+import com.trimit.android.R;
+import com.trimit.android.utils.net.RetroUtils;
 import com.trimit.android.utils.CustomEditText;
+import com.trimit.android.utils.PrefsUtils;
+
+import javax.inject.Inject;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -29,9 +34,14 @@ public abstract class SignupBaseActivity extends AppCompatActivity implements Vi
     protected AutoCompleteTextView textAutoComplete;
     protected ImageView btnNext, btnBack;
     protected TextView textAcceptTerms;
-    public RetroUtils retroUtils;
     private TextView textQuestion;
     private ProgressBar progressBar;
+
+    @Inject
+    protected RetroUtils mRetroUtils;
+    @Inject
+    protected PrefsUtils mPrefsUtils;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -39,6 +49,7 @@ public abstract class SignupBaseActivity extends AppCompatActivity implements Vi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((App) getApplication()).getNetComponent().inject(this);
         setContentView(R.layout.activity_base);
         content=findViewById(R.id.content);
         textQuestion=(TextView) findViewById(R.id.text_question);
@@ -51,7 +62,6 @@ public abstract class SignupBaseActivity extends AppCompatActivity implements Vi
         btnNext.setOnClickListener(this);
         btnBack.setOnClickListener(this);
         progressBar=(ProgressBar) findViewById(R.id.progress);
-        retroUtils=new RetroUtils(this);
         setupFields();
         if(savedInstanceState!=null){
             if(savedInstanceState.containsKey(BUNDLE_FIELD1)){

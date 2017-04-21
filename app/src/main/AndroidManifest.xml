@@ -14,26 +14,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WelcomeActivity">
+        <activity android:name=".ui.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".signup.SignupNameActivity" />
-        <activity android:name=".signup.SignupEmailActivity" />
-        <activity android:name=".signup.SignupPasswordActivity" />
+        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.signup.SignupNameActivity" />
+        <activity android:name=".ui.signup.SignupEmailActivity" />
+        <activity android:name=".ui.signup.SignupPasswordActivity" />
         <activity
-            android:name=".signup.SignupBirthdayActivity"
+            android:name=".ui.signup.SignupBirthdayActivity"
             android:exported="true" />
-        <activity android:name=".signup.SignupBarberActivity" />
+        <activity android:name=".ui.signup.SignupBarberActivity" />
         <activity
-            android:name=".signup.SignupGenderActivity"
+            android:name=".ui.signup.SignupGenderActivity"
             android:exported="true" />
-        <activity android:name=".AccountActivity"></activity>
-        <activity android:name=".PasswordResetActivity"></activity>
+        <activity android:name=".ui.AccountActivity"></activity>
+        <activity android:name=".ui.PasswordResetActivity"></activity>
     </application>
 
 </manifest>

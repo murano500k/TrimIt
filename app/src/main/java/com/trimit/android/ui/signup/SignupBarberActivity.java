@@ -1,9 +1,8 @@
-package com.trimit.android.signup;
+package com.trimit.android.ui.signup;
 
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,10 +10,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.trimit.android.LoginActivity;
+import com.trimit.android.ui.LoginActivity;
 import com.trimit.android.R;
-import com.trimit.android.SignupBaseActivity;
-import com.trimit.android.net.RetroUtils;
+import com.trimit.android.ui.SignupBaseActivity;
 import com.trimit.android.utils.PrefsUtils;
 
 public class SignupBarberActivity extends SignupBaseActivity {
@@ -66,7 +64,7 @@ public class SignupBarberActivity extends SignupBaseActivity {
             textAutoComplete.setError(getString(R.string.error_field_empty));
             return false;
         } else {
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_BARBER_TYPE, textBarber).apply();
+            mPrefsUtils.setStringValue(PrefsUtils.PREFS_KEY_BARBER_TYPE, textBarber);
         }
         return true;
     }
@@ -74,8 +72,7 @@ public class SignupBarberActivity extends SignupBaseActivity {
     @Override
     public void nextActivity() {
         Toast.makeText(this, "registering...", Toast.LENGTH_SHORT).show();
-        RetroUtils retroUtils =new RetroUtils(this);
-        retroUtils.createUserFromPrefs().subscribe(userCreateResponce -> {
+        mRetroUtils.createUserFromPrefs().subscribe(userCreateResponce -> {
             Log.d(TAG, "accept: "+userCreateResponce);
             Log.d(TAG, "userId: "+userCreateResponce.getUserCreateResponce().getUserId());
             hideSoftKeyboard();

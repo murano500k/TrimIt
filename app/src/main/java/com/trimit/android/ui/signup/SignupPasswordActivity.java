@@ -1,8 +1,9 @@
-package com.trimit.android.signup;
+package com.trimit.android.ui.signup;
 
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.text.InputType;
+import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -10,18 +11,20 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
 
 import com.trimit.android.R;
-import com.trimit.android.SignupBaseActivity;
+import com.trimit.android.ui.SignupBaseActivity;
 import com.trimit.android.utils.PrefsUtils;
 
-public class SignupNameActivity extends SignupBaseActivity {
+public class SignupPasswordActivity extends SignupBaseActivity {
+
 
     @Override
     public void setupFields() {
-        setQuestion(getString(R.string.text_signup_name));
+        setQuestion(getString(R.string.text_signup_password));
         etField1.setVisibility(View.VISIBLE);
         etField2.setVisibility(View.VISIBLE);
-        etField1.setHint(getString(R.string.et_first_name));
-        etField1.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+        etField1.setHint(getString(R.string.et_password));
+        etField1.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD);
+        etField1.setTransformationMethod(PasswordTransformationMethod.getInstance());
         etField1.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         etField1.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -35,15 +38,16 @@ public class SignupNameActivity extends SignupBaseActivity {
             }
         });
 
-        etField2.setHint(getString(R.string.et_last_name));
-        etField2.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+        etField2.setHint(getString(R.string.et_password_confirm));
+        etField2.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD);
+        etField2.setTransformationMethod(PasswordTransformationMethod.getInstance());
         etField2.setImeOptions(EditorInfo.IME_ACTION_SEND);
         etField2.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    if(checkFieldsCorrect()){
+                    if(checkFieldsCorrect()) {
                         hideSoftKeyboard();
                         onClick(btnNext);
                     }
@@ -53,7 +57,6 @@ public class SignupNameActivity extends SignupBaseActivity {
             }
         });
     }
-
     @Override
     public boolean checkFieldsCorrect(){
         String textField1=null;
@@ -62,25 +65,23 @@ public class SignupNameActivity extends SignupBaseActivity {
         if(textField1.isEmpty()) {
             etField1.setError(getString(R.string.error_field_empty));
             return false;
-        } else {
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_FIRST_NAME, textField1).apply();
         }
         textField2= etField2.getText().toString();
         if(textField2.isEmpty()) {
             etField2.setError(getString(R.string.error_field_empty));
             return false;
+        }else if(!TextUtils.equals(textField1, textField2)){
+            etField2.setError(getString(R.string.error_passwords_not_match));
+            return false;
         } else {
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_LAST_NAME, textField2).apply();
+            mPrefsUtils.setStringValue(PrefsUtils.PREFS_KEY_PASSWORD, textField2);
         }
         return true;
     }
 
     @Override
     public void nextActivity() {
-        Log.d(TAG, "nextActivity: SignupEmailActivity");
-        startActivity(new Intent(this, SignupEmailActivity.class));
+        Log.d(TAG, "nextActivity: SignupBirthdayActivity");
+        startActivity(new Intent(this, SignupBirthdayActivity.class));
     }
-
-
-
 }

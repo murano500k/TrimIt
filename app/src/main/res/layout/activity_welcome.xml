@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_welcome"
-    tools:context="com.trimit.android.WelcomeActivity">
+    tools:context="com.trimit.android.ui.WelcomeActivity">
 
     <Button
         android:id="@+id/btn_signup"

@@ -1,13 +1,13 @@
 package com.trimit.android.utils;
 
-import android.content.Context;
-import android.preference.PreferenceManager;
+import android.content.SharedPreferences;
 
 /**
  * Created by artem on 4/18/17.
  */
 
 public class PrefsUtils {
+    
     public static final String PREFS_KEY_FIRST_NAME = "PREFS_KEY_FIRST_NAME";
     public static final String PREFS_KEY_LAST_NAME = "PREFS_KEY_LAST_NAME";
     public static final String PREFS_KEY_EMAIL = "PREFS_KEY_EMAIL";
@@ -17,20 +17,24 @@ public class PrefsUtils {
     public static final String PREFS_KEY_ACCESS_TOKEN = "PREFS_KEY_ACCESS_TOKEN";
     public static final String PREFS_KEY_TOKEN_TIMESTAMP = "PREFS_KEY_TOKEN_TIMESTAMP";
     public static final String PREFS_KEY_PASSWORD = "PREFS_KEY_PASSWORD";
+    private final SharedPreferences mPrefs;
 
-
-    public static void setStringValue(Context  context, String key , String value){
-        PreferenceManager.getDefaultSharedPreferences(context).edit().putString(key,value).apply();
-    }
-    public static String getStringValue(Context  context, String key){
-        return PreferenceManager.getDefaultSharedPreferences(context).getString(key, null);
+    public PrefsUtils(SharedPreferences preferences) {
+        this.mPrefs = preferences;
     }
 
-    public static long getLongValue(Context context, String key) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getLong(key, Long.MIN_VALUE);
+    public void setStringValue(String key , String value){
+        mPrefs.edit().putString(key,value).apply();
+    }
+    public String getStringValue(String key){
+        return mPrefs.getString(key, null);
     }
 
-    public static void setLongValue(Context context, String key, long value) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit().putLong(key,value).apply();
+    public long getLongValue(String key) {
+        return mPrefs.getLong(key, Long.MIN_VALUE);
+    }
+
+    public void setLongValue(String key, long value) {
+        mPrefs.edit().putLong(key,value).apply();
     }
 }

@@ -1,4 +1,4 @@
-package com.trimit.android;
+package com.trimit.android.ui;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.trimit.android.signup.SignupNameActivity;
+import com.trimit.android.R;
+import com.trimit.android.ui.signup.SignupNameActivity;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
