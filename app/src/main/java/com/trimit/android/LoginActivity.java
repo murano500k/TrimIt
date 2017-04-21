@@ -22,6 +22,8 @@ import com.trimit.android.utils.PrefsUtils;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -30,8 +32,13 @@ public class LoginActivity extends AppCompatActivity {
     ImageView btnLogin, btnBack;
     com.trimit.android.utils.CustomEditText etEmail, etPassword;
     TextView textForgotPwd;
-    RetroUtils retroUtils;
     private ProgressBar progressBar;
+
+    @Inject
+    protected RetroUtils mRetroUtils;
+
+    @Inject
+    protected PrefsUtils mPrefsUtils;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -40,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((App) getApplication()).getNetComponent().inject(this);
         setContentView(R.layout.activity_login);
         btnBack=(ImageView)findViewById(R.id.btn_back);
         btnLogin=(ImageView)findViewById(R.id.btn_login);
@@ -52,9 +60,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void setup(){
-        String savedEmail= PrefsUtils.getStringValue(this, PrefsUtils.PREFS_KEY_EMAIL);
+        String savedEmail= mPrefsUtils.getStringValue( PrefsUtils.PREFS_KEY_EMAIL);
         if(savedEmail!=null && InputUtils.isValidEmail(savedEmail)) etEmail.setText(savedEmail);
-        retroUtils=new RetroUtils(this);
+
         etEmail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         etEmail.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         etEmail.setOnEditorActionListener((v, actionId, event) -> {
@@ -130,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
     private void actionLogin(String email, String password) {
         hideSoftKeyboard();
         progressBar.setVisibility(View.VISIBLE);
-        retroUtils.loginObservable(email,password).subscribe(responce -> {
+        mRetroUtils.loginObservable(email,password).subscribe(responce -> {
             Log.d(TAG, "actionLogin: "+responce.getSuccess());
             progressBar.setVisibility(View.GONE);
             Intent intent=new Intent(LoginActivity.this, AccountActivity.class);

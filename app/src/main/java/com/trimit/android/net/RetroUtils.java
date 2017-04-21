@@ -1,12 +1,9 @@
 package com.trimit.android.net;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.rx2androidnetworking.Rx2AndroidNetworking;
 import com.trimit.android.model.AuthResponce;
 import com.trimit.android.model.EmailExistsResponce;
@@ -22,17 +19,14 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by artem on 4/19/17.
  */
 
 public class RetroUtils {
-    private final Api api;
-    Retrofit retrofit;
     private static final String TAG = "RetroUtils";
-    public static final String BASE_URL = "https://api.trimitapp.co.uk/v1-dev/";
+    public String mBaseUrl;
 
     public static final String PARAM_CLIENT_ID = "client_id";
     public static final String VALUE_CLIENT_ID = "AndroidFreelancerClient";
@@ -42,29 +36,29 @@ public class RetroUtils {
 
     public static final String PARAM_GRANT_TYPE = "grant_type";
     public static final String VALUE_RESPONCE_TYPE = "client_credentials";
-    private Context mContext;
-    private JsonUtils jsonUtils;
-    public RetroUtils(Context context) {
-        this.mContext = context;
-        Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                .create();
-        RxJava2CallAdapterFactory rxJava2CallAdapterFactory=RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io());
+    private JsonUtils mJsonUtils;
 
-        retrofit=new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(rxJava2CallAdapterFactory)
-                .build();
-        api = retrofit.create(Api.class);
-        jsonUtils=new JsonUtils();
+    private final Api mApi;
+    private final Gson mGson;
+    Retrofit mRetrofit;
+    private PrefsUtils mPrefsUtils;
+    private AuthUtils mAuthUtils;
+
+    public RetroUtils(Retrofit retrofit, Gson gson, PrefsUtils prefsUtils) {
+        this.mBaseUrl=retrofit.baseUrl().toString();
+        this.mRetrofit = retrofit;
+        this.mPrefsUtils = prefsUtils;
+        this.mGson=gson;
+        mApi = mRetrofit.create(Api.class);
+        mAuthUtils =new AuthUtils(mPrefsUtils);
+        mJsonUtils =new JsonUtils(mGson);
     }
     public Observable<String> authObservable() {
-        String requestUrl = BASE_URL + "oauth/token";
+        String requestUrl = mBaseUrl + "oauth/token";
         Log.d(TAG, "auth: " + requestUrl);
         Observable<String> observableAuthResponce;
-        if (AuthUtils.hasValidToken(mContext)){
-            observableAuthResponce = Observable.just(AuthUtils.getToken(mContext));
+        if (mAuthUtils.hasValidToken()){
+            observableAuthResponce = Observable.just(mAuthUtils.getToken());
             Log.d(TAG, "authObservable: has token");
         } else {
             Log.d(TAG, "authObservable: get token");
@@ -79,7 +73,7 @@ public class RetroUtils {
                     .map(authResponce -> {
                         Log.d(TAG, "apply: "+authResponce);
                         String token = authResponce.getAccessToken();
-                        AuthUtils.updateToken(mContext, token);
+                        mAuthUtils.updateToken(token);
                         return token;
                     });
         }
@@ -93,7 +87,7 @@ public class RetroUtils {
                 JsonObject jsonObject=new JsonObject();
                 jsonObject.addProperty("email", email);
                 Log.d(TAG, "jsonObject: "+jsonObject.toString());
-                return api.checkEmailRx(s, jsonObject.toString());
+                return mApi.checkEmailRx(s, jsonObject.toString());
             }
         }).subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread());
@@ -104,7 +98,7 @@ public class RetroUtils {
             public Observable<ResponceUserCreate> apply(@NonNull String token) throws Exception {
                 Log.d(TAG, "token: "+token);
                 Log.d(TAG, "user: "+user);
-                return api.createUser(token, user);
+                return mApi.createUser(token, user);
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -114,14 +108,14 @@ public class RetroUtils {
     }
 
     private String getUserFromPrefs() {
-        String email = PrefsUtils.getStringValue(mContext, PrefsUtils.PREFS_KEY_EMAIL);
-        String firstName = PrefsUtils.getStringValue(mContext, PrefsUtils.PREFS_KEY_FIRST_NAME);
-        String lastName = PrefsUtils.getStringValue(mContext, PrefsUtils.PREFS_KEY_LAST_NAME);
-        String password = PrefsUtils.getStringValue(mContext, PrefsUtils.PREFS_KEY_PASSWORD);
-        String dob = PrefsUtils.getStringValue(mContext, PrefsUtils.PREFS_KEY_BIRTHDAY);
-        String gender = PrefsUtils.getStringValue(mContext, PrefsUtils.PREFS_KEY_GENDER);
-        String barber_type_id = PrefsUtils.getStringValue(mContext, PrefsUtils.PREFS_KEY_BARBER_TYPE);
-        return jsonUtils.createUser(firstName,lastName, email,password,gender,dob,barber_type_id);
+        String email = mPrefsUtils.getStringValue(PrefsUtils.PREFS_KEY_EMAIL);
+        String firstName = mPrefsUtils.getStringValue(PrefsUtils.PREFS_KEY_FIRST_NAME);
+        String lastName = mPrefsUtils.getStringValue(PrefsUtils.PREFS_KEY_LAST_NAME);
+        String password = mPrefsUtils.getStringValue(PrefsUtils.PREFS_KEY_PASSWORD);
+        String dob = mPrefsUtils.getStringValue(PrefsUtils.PREFS_KEY_BIRTHDAY);
+        String gender = mPrefsUtils.getStringValue(PrefsUtils.PREFS_KEY_GENDER);
+        String barber_type_id = mPrefsUtils.getStringValue(PrefsUtils.PREFS_KEY_BARBER_TYPE);
+        return mJsonUtils.createUser(firstName,lastName, email,password,gender,dob,barber_type_id);
     }
 
 
@@ -133,20 +127,20 @@ public class RetroUtils {
                 JsonObject jsonObject=new JsonObject();
                 jsonObject.addProperty("email", email);
                 Log.d(TAG, "jsonObject: "+jsonObject.toString());
-                return api.forgotPassword(s, jsonObject.toString());
+                return mApi.forgotPassword(s, jsonObject.toString());
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<Responce> loginObservable(String email, String password){
-        final String loginData = jsonUtils.getLoginData(email,password);
+        final String loginData = mJsonUtils.getLoginData(email,password);
         return authObservable().flatMap(new Function<String, ObservableSource<Responce>>() {
             @Override
             public ObservableSource<Responce> apply(@NonNull String s) throws Exception {
                 Log.d(TAG, "token:"+s);
                 Log.d(TAG, "loginData: "+loginData);
-                return api.login(s, loginData);
+                return mApi.login(s, loginData);
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

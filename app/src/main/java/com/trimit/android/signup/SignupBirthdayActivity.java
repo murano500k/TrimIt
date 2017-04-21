@@ -1,7 +1,6 @@
 package com.trimit.android.signup;
 
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -43,7 +42,7 @@ public class SignupBirthdayActivity extends SignupBaseActivity {
         String textBirthday = etField2.getText().toString();
         Log.d(TAG, "textBD: "+textBirthday+" "+textBirthday.matches("^[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]$"));
         if(textBirthday.matches("^[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]$")){
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_BIRTHDAY, textBirthday).apply();
+            mPrefsUtils.setStringValue(PrefsUtils.PREFS_KEY_BIRTHDAY, textBirthday);
             return true;
         }
         else return false;

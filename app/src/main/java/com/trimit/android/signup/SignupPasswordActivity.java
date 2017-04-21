@@ -1,7 +1,6 @@
 package com.trimit.android.signup;
 
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
@@ -75,7 +74,7 @@ public class SignupPasswordActivity extends SignupBaseActivity {
             etField2.setError(getString(R.string.error_passwords_not_match));
             return false;
         } else {
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_PASSWORD, textField2).apply();
+            mPrefsUtils.setStringValue(PrefsUtils.PREFS_KEY_PASSWORD, textField2);
         }
         return true;
     }

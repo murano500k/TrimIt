@@ -1,7 +1,6 @@
 package com.trimit.android.signup;
 
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -44,11 +43,11 @@ public class SignupEmailActivity extends SignupBaseActivity {
             etField2.setError(getString(R.string.error_field_not_valid));
             return false;
         } else {
-            retroUtils.checkEmailObservable(textEmail).subscribe(emailExistsResponce -> {
+            mRetroUtils.checkEmailObservable(textEmail).subscribe(emailExistsResponce -> {
                 if (emailExistsResponce.getEmailExists()) {
                     etField2.setError(getString(R.string.error_email_in_use));
                 } else {
-                    PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_EMAIL, textEmail).apply();
+                    mPrefsUtils.setStringValue(PrefsUtils.PREFS_KEY_EMAIL, textEmail);
                     nextActivity();
                 }
             }, throwable -> {

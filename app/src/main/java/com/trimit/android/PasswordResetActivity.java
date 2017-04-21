@@ -19,6 +19,8 @@ import com.trimit.android.utils.InputUtils;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -26,8 +28,11 @@ public class PasswordResetActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     ImageView btnReset, btnBack;
     com.trimit.android.utils.CustomEditText etEmail;
-    RetroUtils retroUtils;
     private ProgressBar progressBar;
+
+    @Inject
+    RetroUtils mRetroUtils;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -36,6 +41,7 @@ public class PasswordResetActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((App)getApplication()).getNetComponent().inject(this);
         setContentView(R.layout.activity_password_reset);
         btnBack=(ImageView)findViewById(R.id.btn_back);
         btnReset =(ImageView)findViewById(R.id.btn_reset);
@@ -45,7 +51,6 @@ public class PasswordResetActivity extends AppCompatActivity {
     }
 
     public void setup(){
-        retroUtils=new RetroUtils(this);
         etEmail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         etEmail.setImeOptions(EditorInfo.IME_ACTION_SEND);
         etEmail.setOnEditorActionListener((v, actionId, event) -> {
@@ -94,7 +99,7 @@ public class PasswordResetActivity extends AppCompatActivity {
     private void actionForgotPassword(String email) {
         hideSoftKeyboard();
         progressBar.setVisibility(View.VISIBLE);
-        retroUtils.checkEmailObservable(email).zipWith(retroUtils.forgotPasswordObservable(email), (emailExistsResponce, responce) -> {
+        mRetroUtils.checkEmailObservable(email).zipWith(mRetroUtils.forgotPasswordObservable(email), (emailExistsResponce, responce) -> {
             String result;
             if(!emailExistsResponce.getEmailExists() || !TextUtils.equals(responce.getSuccess(),"true")) result=getString(R.string.error);
             else result=getString(R.string.reset_password_success)+email;

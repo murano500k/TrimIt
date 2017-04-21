@@ -15,8 +15,8 @@ public class JsonUtils {
     Gson gson;
     private static final String TAG = "JsonUtils";
 
-    public JsonUtils() {
-        this.gson = new Gson();
+    public JsonUtils(Gson gson) {
+        this.gson = gson;
     }
 
     public AccountCreate createAccount(String firstName, String lastName, String email, String password, String timestamp){

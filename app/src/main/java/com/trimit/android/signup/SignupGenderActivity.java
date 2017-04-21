@@ -1,7 +1,6 @@
 package com.trimit.android.signup;
 
 import android.content.Intent;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,7 +54,7 @@ public class SignupGenderActivity extends SignupBaseActivity {
             textAutoComplete.setError(getString(R.string.error_field_empty));
             return false;
         } else {
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putString(PrefsUtils.PREFS_KEY_GENDER, textGender).apply();
+            mPrefsUtils.setStringValue(PrefsUtils.PREFS_KEY_GENDER, textGender);
         }
         return true;
     }
