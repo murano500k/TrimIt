@@ -2,7 +2,6 @@ package com.trimit.android.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -14,15 +13,15 @@ import android.widget.TextView;
 
 import com.trimit.android.App;
 import com.trimit.android.R;
-import com.trimit.android.utils.net.RetroUtils;
 import com.trimit.android.utils.CustomEditText;
 import com.trimit.android.utils.PrefsUtils;
+import com.trimit.android.utils.net.RetroUtils;
 
 import javax.inject.Inject;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public abstract class SignupBaseActivity extends AppCompatActivity implements View.OnClickListener {
+public abstract class SignupBaseActivity extends BaseActivity implements View.OnClickListener {
 
     protected static final String TAG = "BaseActivity";
 

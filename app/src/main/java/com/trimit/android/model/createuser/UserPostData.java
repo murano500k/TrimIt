@@ -1,12 +1,10 @@
 
-package com.trimit.android.model;
+package com.trimit.android.model.createuser;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserCreate {
-
-
+public class UserPostData {
 
     @SerializedName("gender")
     @Expose
@@ -26,7 +24,7 @@ public class UserCreate {
 
     @SerializedName("account")
     @Expose
-    private AccountCreate account;
+    private AccountPostData account;
 
 
     public String getLoyaltyPoints() {
@@ -61,11 +59,11 @@ public class UserCreate {
         this.barberTypeId = barberTypeId;
     }
 
-    public void setAccount(AccountCreate account){
+    public void setAccount(AccountPostData account){
         this.account=account;
     }
 
-    public AccountCreate getAccount() {
+    public AccountPostData getAccount() {
         return account;
     }
 

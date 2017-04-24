@@ -6,14 +6,19 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.trimit.android.App;
 import com.trimit.android.R;
 import com.trimit.android.ui.signup.SignupNameActivity;
+import com.trimit.android.utils.PrefsUtils;
+
+import javax.inject.Inject;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -24,6 +29,11 @@ public class WelcomeActivity extends AppCompatActivity {
     private int[] mLayouts;
     private TextView[] mDots;
     private MyViewPagerAdapter mViewPagerAdapter;
+
+    @Inject
+    PrefsUtils mPrefsUtils;
+
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -31,6 +41,7 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((App)getApplicationContext()).getNetComponent().inject(this);
         setContentView(R.layout.activity_welcome);
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mDotsLayout = (LinearLayout) findViewById(R.id.layout_dots);
@@ -47,7 +58,19 @@ public class WelcomeActivity extends AppCompatActivity {
         mViewPagerAdapter = new MyViewPagerAdapter();
         mViewPager.setAdapter(mViewPagerAdapter);
         mViewPager.addOnPageChangeListener(viewPagerPageChangeListener);
-        //test();
+        checkUserLoggedIn();
+    }
+
+    private void checkUserLoggedIn(){
+        String userId = mPrefsUtils.getStringValue(PrefsUtils.PREFS_KEY_USER_ID);
+        Log.d(TAG, "checkUserLoggedIn: userId="+userId);
+        if(userId!=null && !userId.isEmpty()){
+            Log.d(TAG, "checkUserLoggedIn: user logged in");
+            startActivity(new Intent(this, HomeActivity.class));
+            finish();
+        }else {
+            Log.w(TAG, "checkUserLoggedIn: user NOT logged in" );
+        }
     }
 
     public void onClick(View v){
@@ -68,13 +91,13 @@ public class WelcomeActivity extends AppCompatActivity {
             mDots[i] = new TextView(this);
             mDots[i].setText(".");
             mDots[i].setTextSize(64);
-            mDots[i].setTextColor(getResources().getColor(R.color.colorDotInactive));
+            mDots[i].setTextColor(getResources().getColor(R.color.colorInactive));
             mDots[i].setAlpha(0.6f);
             mDotsLayout.addView(mDots[i]);
         }
 
         if (mDots.length > 0)
-            mDots[currentPage].setTextColor(getResources().getColor(R.color.colorDotActive));
+            mDots[currentPage].setTextColor(getResources().getColor(R.color.colorActive));
     }
 
     private int getItem(int i) {
@@ -130,4 +153,6 @@ public class WelcomeActivity extends AppCompatActivity {
             container.removeView(view);
         }
     }
+
+
 }

@@ -1,20 +1,20 @@
 
-package com.trimit.android.model;
+package com.trimit.android.model.createuser;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class UserCreateResponce {
+public class CreatedUser {
 
     @SerializedName("user_id")
     @Expose
     private int userId;
     @SerializedName("account")
     @Expose
-    private AccountCreateResponce account;
+    private CreatedAccount account;
     @SerializedName("customer")
     @Expose
-    private CustomerResponce customer;
+    private CreatedCustomer customer;
     @SerializedName("photo")
     @Expose
     private Photo photo;
@@ -27,19 +27,19 @@ public class UserCreateResponce {
         this.userId = userId;
     }
 
-    public AccountCreateResponce getAccount() {
+    public CreatedAccount getAccount() {
         return account;
     }
 
-    public void setAccount(AccountCreateResponce account) {
+    public void setAccount(CreatedAccount account) {
         this.account = account;
     }
 
-    public CustomerResponce getCustomer() {
+    public CreatedCustomer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(CustomerResponce customer) {
+    public void setCustomer(CreatedCustomer customer) {
         this.customer = customer;
     }
 
@@ -53,7 +53,7 @@ public class UserCreateResponce {
 
     @Override
     public String toString() {
-        return "UserCreateResponce{" +
+        return "CreatedUser{" +
                 "userId=" + userId +
                 ", account=" + account +
                 ", customer=" + customer +

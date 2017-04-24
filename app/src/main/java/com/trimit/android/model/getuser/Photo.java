@@ -1,5 +1,5 @@
 
-package com.trimit.android.model;
+package com.trimit.android.model.getuser;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -18,4 +18,10 @@ public class Photo {
         this.profilePicture = profilePicture;
     }
 
+    @Override
+    public String toString() {
+        return "Photo{" +
+                "profilePicture=" + profilePicture +
+                '}';
+    }
 }

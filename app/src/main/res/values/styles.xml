@@ -12,9 +12,13 @@
         <item name="android:editTextColor">@color/colorTextAccent</item>
         <item name="android:textColorHint">@color/colorTextPrimary</item>
         <item name="android:textColor">@color/colorTextPrimary</item>
-        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:textViewStyle">@style/AppTheme.Widget.TextView</item>
         <item name="android:editTextStyle">@style/AppTheme.Widget.EditText</item>
+
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/bg_gradient</item>
 
 
     </style>
@@ -30,6 +34,15 @@
 
     <style name="AppTheme.Widget.TextView.Bold" parent="AppTheme.Widget.TextView">
         <item name="fontPath">fonts/Gotham-Medium.otf</item>
+    </style>
+
+    <style name="ProfileMenuItem" parent="AppTheme.Widget.TextView">
+        <item name="fontPath">fonts/Gotham-Light.otf</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/colorInactive</item>
+        <item name="android:background">@color/cardview_light_background</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
 

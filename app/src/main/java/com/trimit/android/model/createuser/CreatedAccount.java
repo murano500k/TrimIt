@@ -1,10 +1,10 @@
 
-package com.trimit.android.model;
+package com.trimit.android.model.createuser;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class AccountCreateResponce {
+public class CreatedAccount {
 
     @SerializedName("account_id")
     @Expose

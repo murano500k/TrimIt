@@ -44,8 +44,22 @@
     <string name="text_signup_password">Create a password</string>
     <string name="text_signup_dob">Birthday?</string>
     <string name="text_signup_gender">Gender?</string>
-    <string name="text_signup_barber"></string>
+    <string name="text_signup_barber">Type of barbershop?</string>
     <string name="label_pwd_reset">Enter yur email to reset your password</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_search">Search</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_appointment">Appointment</string>
+    <string name="title_loyalty">Loyalty</string>
+
+    <string name="title_profile_my_trims">My trims</string>
+    <string name="title_profile_my_wallet">My wallet</string>
+    <string name="title_profile_tos">Terms of service</string>
+    <string name="title_profile_help">Help centre</string>
+    <string name="title_profile_signout">Sign out</string>
+    <string name="postcode">Current postcode</string>
+    <string name="how_can_we_help">How can we help?</string>
 
 
 </resources>

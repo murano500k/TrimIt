@@ -3,7 +3,6 @@ package com.trimit.android.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -18,9 +17,9 @@ import android.widget.Toast;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.trimit.android.App;
 import com.trimit.android.R;
-import com.trimit.android.utils.net.RetroUtils;
 import com.trimit.android.utils.InputUtils;
 import com.trimit.android.utils.PrefsUtils;
+import com.trimit.android.utils.net.RetroUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,12 +28,14 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
     private static final String TAG = "LoginActivity";
     ImageView btnLogin, btnBack;
     com.trimit.android.utils.CustomEditText etEmail, etPassword;
     TextView textForgotPwd;
     private ProgressBar progressBar;
+
+
 
     @Inject
     protected RetroUtils mRetroUtils;
@@ -57,6 +58,8 @@ public class LoginActivity extends AppCompatActivity {
         etPassword=(com.trimit.android.utils.CustomEditText)findViewById(R.id.et_password);
         textForgotPwd=(TextView)findViewById(R.id.text_forgot_pwd);
         progressBar=(ProgressBar) findViewById(R.id.progress);
+
+
 
         setup();
     }
@@ -100,8 +103,6 @@ public class LoginActivity extends AppCompatActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aVoid -> onClick());
         textForgotPwd.setEnabled(true);
-        //textForgotPwd.setPaintFlags(textForgotPwd.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-
         RxView.clicks(textForgotPwd)
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -140,18 +141,19 @@ public class LoginActivity extends AppCompatActivity {
     private void actionLogin(String email, String password) {
         hideSoftKeyboard();
         progressBar.setVisibility(View.VISIBLE);
-        mRetroUtils.loginObservable(email,password).subscribe(responce -> {
+        mDisposables.add(mRetroUtils.loginObservable(email,password).subscribe(responce -> {
             Log.d(TAG, "actionLogin: "+responce.getSuccess());
             progressBar.setVisibility(View.GONE);
-            Intent intent=new Intent(LoginActivity.this, AccountActivity.class);
-            intent.putExtra(AccountActivity.EXTRA_RESULT,responce.toString());
-            startActivity(intent);
+            //Intent intent=new Intent(LoginActivity.this, AccountActivity.class);
+            //intent.putExtra(AccountActivity.EXTRA_RESULT,responce.toString());
+            //startActivity(intent);
+            startActivity(new Intent(this, HomeActivity.class));
             finish();
         }, throwable ->{
             progressBar.setVisibility(View.GONE);
             throwable.printStackTrace();
             Toast.makeText(LoginActivity.this, "error: " + throwable, Toast.LENGTH_SHORT).show();
-        });
+        }));
     }
 
     public void hideSoftKeyboard() {

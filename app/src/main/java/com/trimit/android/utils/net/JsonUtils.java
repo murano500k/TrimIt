@@ -3,9 +3,9 @@ package com.trimit.android.utils.net;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.trimit.android.model.AccountCreate;
 import com.trimit.android.model.LoginData;
-import com.trimit.android.model.UserCreate;
+import com.trimit.android.model.createuser.AccountPostData;
+import com.trimit.android.model.createuser.UserPostData;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,8 +19,8 @@ public class JsonUtils {
         this.gson = gson;
     }
 
-    public AccountCreate createAccount(String firstName, String lastName, String email, String password, String timestamp){
-        AccountCreate account = new AccountCreate();
+    public AccountPostData createAccount(String firstName, String lastName, String email, String password, String timestamp){
+        AccountPostData account = new AccountPostData();
         account.setEmail(email);
         account.setFirstName(firstName);
         account.setLastName(lastName);
@@ -35,8 +35,8 @@ public class JsonUtils {
         String timestamp = format.format(Calendar.getInstance().getTime());
         Log.d(TAG, "createUser: timestamp =   "+timestamp);
         Log.d(TAG, "createUser: formattedDob =   "+formattedDob);
-        AccountCreate account =createAccount(firstName,lastName,email,password, timestamp);
-        UserCreate user = new UserCreate();
+        AccountPostData account =createAccount(firstName,lastName,email,password, timestamp);
+        UserPostData user = new UserPostData();
         user.setGender(gender);
         user.setDob(formattedDob);
         user.setBarberTypeId(barberTypeId);

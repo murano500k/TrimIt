@@ -1,24 +1,24 @@
 
-package com.trimit.android.model;
+package com.trimit.android.model.createuser;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ResponceUserCreate {
+public class ResponceCreateUser {
 
     @SerializedName("user")
     @Expose
-    private UserCreateResponce userCreateResponce;
+    private CreatedUser user;
     @SerializedName("success")
     @Expose
     private boolean success;
 
-    public UserCreateResponce getUserCreateResponce() {
-        return userCreateResponce;
+    public CreatedUser getUser() {
+        return user;
     }
 
-    public void setUserCreateResponce(UserCreateResponce userCreateResponce) {
-        this.userCreateResponce = userCreateResponce;
+    public void setUser(CreatedUser user) {
+        this.user = user;
     }
 
     public boolean isSuccess() {
@@ -31,8 +31,8 @@ public class ResponceUserCreate {
 
     @Override
     public String toString() {
-        return "ResponceUserCreate{" +
-                "userCreateResponce=" + userCreateResponce +
+        return "ResponceCreateUser{" +
+                "createdUser=" + user +
                 ", success=" + success +
                 '}';
     }

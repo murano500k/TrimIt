@@ -8,7 +8,9 @@ import com.rx2androidnetworking.Rx2AndroidNetworking;
 import com.trimit.android.model.AuthResponce;
 import com.trimit.android.model.EmailExistsResponce;
 import com.trimit.android.model.Responce;
-import com.trimit.android.model.ResponceUserCreate;
+import com.trimit.android.model.ResponceBarberType;
+import com.trimit.android.model.createuser.ResponceCreateUser;
+import com.trimit.android.model.getuser.ResponceGetUser;
 import com.trimit.android.utils.PrefsUtils;
 
 import io.reactivex.Observable;
@@ -54,13 +56,11 @@ public class RetroUtils {
     }
     public Observable<String> authObservable() {
         String requestUrl = mBaseUrl + "oauth/token";
-        Log.d(TAG, "auth: " + requestUrl);
         Observable<String> observableAuthResponce;
         if (mAuthUtils.hasValidToken()){
+            Log.d(TAG, "token:"+mAuthUtils.getToken());
             observableAuthResponce = Observable.just(mAuthUtils.getToken());
-            Log.d(TAG, "authObservable: has token");
         } else {
-            Log.d(TAG, "authObservable: get token");
             observableAuthResponce = Rx2AndroidNetworking.post(requestUrl)
                     .addBodyParameter(PARAM_CLIENT_ID, VALUE_CLIENT_ID)
                     .addBodyParameter(PARAM_CLIENT_SECRET, VALUE_CLIENT_SECRET)
@@ -70,8 +70,8 @@ public class RetroUtils {
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
                     .map(authResponce -> {
-                        Log.d(TAG, "apply: "+authResponce);
                         String token = authResponce.getAccessToken();
+                        Log.d(TAG, "token:"+token);
                         mAuthUtils.updateToken(token);
                         return token;
                     });
@@ -82,7 +82,6 @@ public class RetroUtils {
         return authObservable().flatMap(new Function<String, ObservableSource<EmailExistsResponce>>() {
             @Override
             public ObservableSource<EmailExistsResponce> apply(@NonNull String s) throws Exception {
-                Log.d(TAG, "token:"+s);
                 JsonObject jsonObject=new JsonObject();
                 jsonObject.addProperty("email", email);
                 Log.d(TAG, "jsonObject: "+jsonObject.toString());
@@ -91,18 +90,17 @@ public class RetroUtils {
         }).subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread());
     }
-    public Observable<ResponceUserCreate> signUpObservable(String user){
-        return authObservable().flatMap(new Function<String, Observable<ResponceUserCreate>>() {
+    public Observable<ResponceCreateUser> signUpObservable(String user){
+        return authObservable().flatMap(new Function<String, Observable<ResponceCreateUser>>() {
             @Override
-            public Observable<ResponceUserCreate> apply(@NonNull String token) throws Exception {
-                Log.d(TAG, "token: "+token);
+            public Observable<ResponceCreateUser> apply(@NonNull String token) throws Exception {
                 Log.d(TAG, "user: "+user);
                 return mApi.createUser(token, user);
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
-    public Observable<ResponceUserCreate> createUserFromPrefs(){
+    public Observable<ResponceCreateUser> createUserFromPrefs(){
         return signUpObservable(getUserFromPrefs());
     }
 
@@ -122,7 +120,6 @@ public class RetroUtils {
         return authObservable().flatMap(new Function<String, ObservableSource<Responce>>() {
             @Override
             public ObservableSource<Responce> apply(@NonNull String s) throws Exception {
-                Log.d(TAG, "token:"+s);
                 JsonObject jsonObject=new JsonObject();
                 jsonObject.addProperty("email", email);
                 Log.d(TAG, "jsonObject: "+jsonObject.toString());
@@ -137,12 +134,38 @@ public class RetroUtils {
         return authObservable().flatMap(new Function<String, ObservableSource<Responce>>() {
             @Override
             public ObservableSource<Responce> apply(@NonNull String s) throws Exception {
-                Log.d(TAG, "token:"+s);
                 Log.d(TAG, "loginData: "+loginData);
                 return mApi.login(s, loginData);
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    public Observable<ResponceGetUser> getUserObservable(){
+        final String userId=mPrefsUtils.getStringValue(PrefsUtils.PREFS_KEY_USER_ID);
+        if(userId==null){
+            return Observable.error(new Throwable("No user id"));
+        }
+        return authObservable().flatMap(new Function<String, Observable<ResponceGetUser>>() {
+            @Override
+            public Observable<ResponceGetUser> apply(@NonNull String s) throws Exception {
+                Log.d(TAG, "userId: "+userId);
+                return mApi.getUser(userId, s);
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<ResponceBarberType> getBarberTypesObservable(){
+                return authObservable().flatMap(new Function<String, Observable<ResponceBarberType>>() {
+            @Override
+            public Observable<ResponceBarberType> apply(@NonNull String s) throws Exception {
+                return mApi.getBarberTypes(s);
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
 
 }

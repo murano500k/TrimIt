@@ -28,12 +28,22 @@
         <activity
             android:name=".ui.signup.SignupBirthdayActivity"
             android:exported="true" />
-        <activity android:name=".ui.signup.SignupBarberActivity" />
+        <activity
+            android:name=".ui.signup.SignupBarberActivity"
+            android:exported="true" />
         <activity
             android:name=".ui.signup.SignupGenderActivity"
             android:exported="true" />
-        <activity android:name=".ui.AccountActivity"></activity>
-        <activity android:name=".ui.PasswordResetActivity"></activity>
+        <activity android:name=".ui.AccountActivity"
+            android:exported="true" />
+        <activity android:name=".ui.PasswordResetActivity"
+            android:exported="true" />
+        <activity android:name=".ui.HomeActivity"
+            android:exported="true"/>
+        <activity android:name=".ui.ProfileActivity"
+            android:exported="true"/>
+        <activity android:name=".ui.search.SearchActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>

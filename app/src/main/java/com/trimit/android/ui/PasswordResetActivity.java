@@ -2,7 +2,6 @@ package com.trimit.android.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,8 +15,8 @@ import android.widget.Toast;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.trimit.android.App;
 import com.trimit.android.R;
-import com.trimit.android.utils.net.RetroUtils;
 import com.trimit.android.utils.InputUtils;
+import com.trimit.android.utils.net.RetroUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +25,7 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class PasswordResetActivity extends AppCompatActivity {
+public class PasswordResetActivity extends BaseActivity {
     private static final String TAG = "LoginActivity";
     ImageView btnReset, btnBack;
     com.trimit.android.utils.CustomEditText etEmail;
@@ -51,6 +50,7 @@ public class PasswordResetActivity extends AppCompatActivity {
         progressBar=(ProgressBar) findViewById(R.id.progress);
         setup();
     }
+
 
     public void setup(){
         etEmail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
@@ -101,7 +101,7 @@ public class PasswordResetActivity extends AppCompatActivity {
     private void actionForgotPassword(String email) {
         hideSoftKeyboard();
         progressBar.setVisibility(View.VISIBLE);
-        mRetroUtils.checkEmailObservable(email).zipWith(mRetroUtils.forgotPasswordObservable(email), (emailExistsResponce, responce) -> {
+        mDisposables.add(mRetroUtils.checkEmailObservable(email).zipWith(mRetroUtils.forgotPasswordObservable(email), (emailExistsResponce, responce) -> {
             String result;
             if(!emailExistsResponce.getEmailExists() || !TextUtils.equals(responce.getSuccess(),"true")) result=getString(R.string.error);
             else result=getString(R.string.reset_password_success)+email;
@@ -118,7 +118,7 @@ public class PasswordResetActivity extends AppCompatActivity {
                         Toast.makeText(this, "error: "+throwable.getMessage(), Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
 
-                });
+                }));
     }
 
     public void hideSoftKeyboard() {

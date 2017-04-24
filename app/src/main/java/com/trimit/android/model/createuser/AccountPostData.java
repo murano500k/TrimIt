@@ -1,45 +1,37 @@
-package com.trimit.android.model;
+
+package com.trimit.android.model.createuser;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by artem on 4/19/17.
- */
+public class AccountPostData {
 
-public class AccountCreate {
-
-
-    @SerializedName("first_name")
+    @SerializedName("account_id")
     @Expose
-    private String firstName;
-
+    private Integer accountId;
     @SerializedName("last_name")
     @Expose
     private String lastName;
-
     @SerializedName("email")
     @Expose
     private String email;
+    @SerializedName("first_name")
+    @Expose
+    private String firstName;
+    @SerializedName("timestamp")
+    @Expose
+    private String timestamp;
 
     @SerializedName("password")
     @Expose
     private String password;
 
-    @SerializedName("timestamp")
-    @Expose
-    private String timestamp;
-
-    public AccountCreate() {
+    public Integer getAccountId() {
+        return accountId;
     }
 
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
     public String getLastName() {
@@ -58,12 +50,12 @@ public class AccountCreate {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getTimestamp() {
@@ -72,5 +64,13 @@ public class AccountCreate {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
