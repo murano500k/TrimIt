@@ -19,7 +19,7 @@ import com.trimit.android.App;
 import com.trimit.android.R;
 import com.trimit.android.utils.InputUtils;
 import com.trimit.android.utils.PrefsUtils;
-import com.trimit.android.utils.net.RetroUtils;
+import com.trimit.android.net.RetroUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -58,16 +58,12 @@ public class LoginActivity extends BaseActivity {
         etPassword=(com.trimit.android.utils.CustomEditText)findViewById(R.id.et_password);
         textForgotPwd=(TextView)findViewById(R.id.text_forgot_pwd);
         progressBar=(ProgressBar) findViewById(R.id.progress);
-
-
-
         setup();
     }
 
     public void setup(){
         String savedEmail= mPrefsUtils.getStringValue( PrefsUtils.PREFS_KEY_EMAIL);
         if(savedEmail!=null && InputUtils.isValidEmail(savedEmail)) etEmail.setText(savedEmail);
-
         etEmail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         etEmail.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         etEmail.setOnEditorActionListener((v, actionId, event) -> {
@@ -79,8 +75,6 @@ public class LoginActivity extends BaseActivity {
             }
             return handled;
         });
-
-        etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD);
         etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
         etPassword.setImeOptions(EditorInfo.IME_ACTION_SEND);
         etPassword.setOnEditorActionListener((v, actionId, event) -> {
@@ -144,10 +138,7 @@ public class LoginActivity extends BaseActivity {
         mDisposables.add(mRetroUtils.loginObservable(email,password).subscribe(responce -> {
             Log.d(TAG, "actionLogin: "+responce.getSuccess());
             progressBar.setVisibility(View.GONE);
-            //Intent intent=new Intent(LoginActivity.this, AccountActivity.class);
-            //intent.putExtra(AccountActivity.EXTRA_RESULT,responce.toString());
-            //startActivity(intent);
-            startActivity(new Intent(this, HomeActivity.class));
+            startActivity(new Intent(this, BottomBarActivity.class));
             finish();
         }, throwable ->{
             progressBar.setVisibility(View.GONE);

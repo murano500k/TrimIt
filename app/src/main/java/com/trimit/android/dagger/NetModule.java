@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.trimit.android.utils.net.RetroUtils;
+import com.trimit.android.net.RetroUtils;
 import com.trimit.android.utils.PrefsUtils;
 
 import javax.inject.Singleton;

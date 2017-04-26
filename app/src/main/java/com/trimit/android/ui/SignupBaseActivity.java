@@ -15,7 +15,7 @@ import com.trimit.android.App;
 import com.trimit.android.R;
 import com.trimit.android.utils.CustomEditText;
 import com.trimit.android.utils.PrefsUtils;
-import com.trimit.android.utils.net.RetroUtils;
+import com.trimit.android.net.RetroUtils;
 
 import javax.inject.Inject;
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF1a9774</color>
+    <color name="colorPrimary">#13a687</color>
     <color name="colorPrimaryDark">#087f23</color>
     <color name="colorPrimaryLight">#80e27e</color>
     <color name="colorAccent">#FFfdb509</color>
@@ -10,7 +10,13 @@
     <color name="colorTextAccent">#f9f9f9</color>
     <color name="colorInactive">#808080</color>
     <color name="colorActive">#f9f9f9</color>
-    <color name="colorBgBottomBar">#d7ccba</color>
+    <color name="colorTextDark">#808080</color>
+
+    <color name="colorBarBg">#dfd6c6</color>
+    <color name="colorBarIconWhite">#ffffff</color>
+    <color name="colorBarIconDark">#929292</color>
+    <color name="colorBarIconBlack">#444444</color>
+
 
 
 

@@ -16,7 +16,7 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.trimit.android.App;
 import com.trimit.android.R;
 import com.trimit.android.utils.InputUtils;
-import com.trimit.android.utils.net.RetroUtils;
+import com.trimit.android.net.RetroUtils;
 
 import java.util.concurrent.TimeUnit;
 

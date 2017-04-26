@@ -14,16 +14,16 @@
         <item name="android:textColor">@color/colorTextPrimary</item>
         <item name="android:textViewStyle">@style/AppTheme.Widget.TextView</item>
         <item name="android:editTextStyle">@style/AppTheme.Widget.EditText</item>
-
-        <item name="android:windowTranslucentStatus">true</item>
         <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowBackground">@drawable/bg_gradient</item>
-
 
     </style>
 
-    <style name="AppTheme.Widget"/>
+
+    <style name="AppTheme.Barber" parent="AppTheme">
+        <item name="android:textColorPrimary">@color/colorTextDark</item>
+        <item name="android:textColor">@color/colorTextDark</item>
+    </style>
+
 
     <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
         <item name="fontPath">fonts/Gotham-Light.otf</item>
@@ -44,6 +44,19 @@
         <item name="android:padding">16dp</item>
         <item name="android:textAlignment">center</item>
     </style>
+    <style name="AppTheme.MyActionBar" parent="@android:style/Widget.Holo.ActionBar">
+        <item name="android:homeAsUpIndicator">@drawable/img_back</item>
+        <item name="android:titleTextStyle">@style/AppTheme.MyActionBar.TitleTextStyle</item>
+        <item name="android:background">@color/colorAccent</item>
+    </style>
 
+    <style name="AppTheme.MyActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="fontPath">fonts/Gotham-Light.otf</item>
+        <item name="android:background">@color/colorAccent</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center</item>
+    </style>
 
 </resources>

@@ -66,7 +66,7 @@ public class WelcomeActivity extends AppCompatActivity {
         Log.d(TAG, "checkUserLoggedIn: userId="+userId);
         if(userId!=null && !userId.isEmpty()){
             Log.d(TAG, "checkUserLoggedIn: user logged in");
-            startActivity(new Intent(this, HomeActivity.class));
+            startActivity(new Intent(this, BottomBarActivity.class));
             finish();
         }else {
             Log.w(TAG, "checkUserLoggedIn: user NOT logged in" );

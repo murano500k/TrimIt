@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_v2"
+        android:title="@string/title_home" />
+
+    <item
+        android:id="@+id/navigation_search"
+        android:icon="@drawable/ic_search_v2"
+        android:title="@string/title_search" />
+
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_profile_v2"
+        android:title="@string/title_profile" />
+
+    <item
+        android:id="@+id/navigation_appointment"
+        android:icon="@drawable/ic_appointment_v2"
+        android:title="@string/title_appointment" />
+
+    <item
+        android:id="@+id/navigation_loyalty"
+        android:icon="@drawable/ic_loyalty_v2"
+        android:title="@string/title_loyalty" />
+
+
+</menu>

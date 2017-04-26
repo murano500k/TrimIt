@@ -21,6 +21,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
+
         AndroidNetworking.initialize(getApplicationContext());
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/Gotham-Light.otf")
