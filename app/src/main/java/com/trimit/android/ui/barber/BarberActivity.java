@@ -2,6 +2,7 @@ package com.trimit.android.ui.barber;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.jakewharton.rxbinding2.view.RxView;
@@ -57,5 +58,17 @@ public class BarberActivity extends BaseBottomBarActivity {
         startActivity(intent);
         finish();
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(int barberId, String screenName) {
+        Log.d(TAG, "onFragmentInteraction: barberId="+barberId+" screen="+screenName);
+        if(TextUtils.equals(screenName, BarberDetailsFragment.class.getName())){
+            getSupportFragmentManager().beginTransaction().replace(R.id.content, BarberDetailsFragment.newInstance(barberId)).commit();
+        }else if(TextUtils.equals(screenName, BarberMapFragment.class.getName())){
+            getSupportFragmentManager().beginTransaction().replace(R.id.content, BarberMapFragment.newInstance(barberId)).commit();
+        }else {
+            Log.e(TAG, "onFragmentInteraction: error "+screenName );
+        }
     }
 }

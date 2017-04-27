@@ -8,24 +8,24 @@ public class Gallery {
 
     @SerializedName("url")
     @Expose
-    private Object url;
+    private String url;
     @SerializedName("caption")
     @Expose
-    private Object caption;
+    private String caption;
 
-    public Object getUrl() {
+    public String getUrl() {
         return url;
     }
 
-    public void setUrl(Object url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 
-    public Object getCaption() {
+    public String getCaption() {
         return caption;
     }
 
-    public void setCaption(Object caption) {
+    public void setCaption(String caption) {
         this.caption = caption;
     }
 

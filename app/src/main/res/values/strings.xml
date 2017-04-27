@@ -70,6 +70,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="userdata_loading">User data is loading...</string>
+    <string name="book_now">Book now</string>
+    <string name="text_reviews">Reviews</string>
 
 
 </resources>

@@ -101,4 +101,9 @@ public class BottomBarActivity extends BaseBottomBarActivity implements OnFragme
                 .commit();
         setBottomBarStyle(3);
     }
+
+    @Override
+    public void onFragmentInteraction(int barberId, String screenName) {
+
+    }
 }

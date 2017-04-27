@@ -75,6 +75,7 @@ public class LoginActivity extends BaseActivity {
             }
             return handled;
         });
+        etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD);
         etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
         etPassword.setImeOptions(EditorInfo.IME_ACTION_SEND);
         etPassword.setOnEditorActionListener((v, actionId, event) -> {

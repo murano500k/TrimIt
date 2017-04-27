@@ -178,21 +178,21 @@ public class RetroUtils {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<Object> getBarberObservable(String barberId){
-        return authObservable().flatMap(new Function<String, Observable<Object>>() {
+    public Observable<BarberResponce> getBarberObservable(String barberId){
+        return authObservable().flatMap(new Function<String, Observable<BarberResponce>>() {
             @Override
-            public Observable<Object> apply(@NonNull String s) throws Exception {
-                return mApi.getBarbers(s, barberId);
+            public Observable<BarberResponce> apply(@NonNull String s) throws Exception {
+                return mApi.getBarber(barberId,s);
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<Object> findBarbers(LatLng point){
-        return authObservable().flatMap(new Function<String, Observable<Object>>() {
+    public Observable<BarberResponce> findBarbers(LatLng point){
+        return authObservable().flatMap(new Function<String, Observable<BarberResponce>>() {
             @Override
-            public Observable<Object> apply(@NonNull String s) throws Exception {
-                return mApi.getBarbers(s, mJsonUtils.getLocationData(point));
+            public Observable<BarberResponce> apply(@NonNull String s) throws Exception {
+                return mApi.findBarbers(s, mJsonUtils.getLocationData(point));
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

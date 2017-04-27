@@ -1,6 +1,5 @@
 package com.trimit.android.ui;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -86,10 +85,6 @@ public abstract class BaseBottomBarActivity extends BaseActivity implements OnFr
         }
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-        Log.d(TAG, "onFragmentInteraction: not implemented");
-    }
 
     @Override
     public PrefsUtils getPrefs() {

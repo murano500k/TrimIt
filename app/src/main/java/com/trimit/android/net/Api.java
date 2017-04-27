@@ -25,10 +25,10 @@ interface Api {
     Observable<BarberResponce> getBarbers(@Query("access_token") String token);
 
     @GET("barber/{barber_id}")
-    Observable<Object> getBarbers(@Path("barber_id") String userId, @Query("access_token") String token);
+    Observable<BarberResponce> getBarber(@Path("barber_id") String barberId, @Query("access_token") String token);
 
     @POST("barber")
-    Observable<Object> findBarbers(@Query("access_token") String token,  @Field("data")  String data);
+    Observable<BarberResponce> findBarbers(@Query("access_token") String token,  @Field("data")  String data);
 
 
     @GET("barber_type")

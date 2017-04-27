@@ -1,7 +1,5 @@
 package com.trimit.android.ui;
 
-import android.net.Uri;
-
 import com.trimit.android.net.RetroUtils;
 import com.trimit.android.utils.PrefsUtils;
 
@@ -10,7 +8,7 @@ import com.trimit.android.utils.PrefsUtils;
  */
 
 public interface OnFragmentInteractionListener {
-    void onFragmentInteraction(Uri uri);
+    void onFragmentInteraction(int barberId, String screenId);
 
 
 

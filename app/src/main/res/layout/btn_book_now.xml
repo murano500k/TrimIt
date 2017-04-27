@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="192dp"
+    android:layout_height="48dp"
+    android:layout_margin="16dp"
+    android:id="@+id/btn_book_now"
+    android:background="@drawable/btn_book_now"
+    android:scaleType="fitCenter"
+    android:text="@string/book_now"
+    app:srcCompat="@drawable/btn_book_now" />

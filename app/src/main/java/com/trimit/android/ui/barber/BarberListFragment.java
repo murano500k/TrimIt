@@ -1,7 +1,6 @@
 package com.trimit.android.ui.barber;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -64,14 +63,13 @@ public class BarberListFragment extends Fragment implements  BarberAdapter.Dista
         mAdapter=new BarberAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
         mProgress.setVisibility(View.VISIBLE);
-
         return view;
     }
 
     public void showData(List<Barber> list, String errorMsg) {
         mProgress.setVisibility(View.GONE);
         if(errorMsg==null) {
-            Log.d(TAG, "showData: "+list);
+            //Log.d(TAG, "showData: "+list);
             mAdapter.addItems(list);
             setCounter(list.size());
         }else {
@@ -84,12 +82,6 @@ public class BarberListFragment extends Fragment implements  BarberAdapter.Dista
         mTextCounter.setText(count+" barbers found");
     }
 
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -118,7 +110,8 @@ public class BarberListFragment extends Fragment implements  BarberAdapter.Dista
 
     @Override
     public void itemClicked(Barber barber) {
-        Toast.makeText(getContext(), barber.getAccount().get(0).getFirstName()+" clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), barber.getBarberId()+" clicked", Toast.LENGTH_SHORT).show();
+        mListener.onFragmentInteraction(barber.getBarberId(), BarberDetailsFragment.class.getName());
     }
 
     @Override
