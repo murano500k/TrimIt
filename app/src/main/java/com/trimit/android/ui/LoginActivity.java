@@ -52,6 +52,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ((App) getApplication()).getNetComponent().inject(this);
         setContentView(R.layout.activity_login);
+
         btnBack=(ImageView)findViewById(R.id.btn_back);
         btnLogin=(ImageView)findViewById(R.id.btn_login);
         etEmail=(com.trimit.android.utils.CustomEditText)findViewById(R.id.et_email);
@@ -64,6 +65,10 @@ public class LoginActivity extends BaseActivity {
     public void setup(){
         String savedEmail= mPrefsUtils.getStringValue( PrefsUtils.PREFS_KEY_EMAIL);
         if(savedEmail!=null && InputUtils.isValidEmail(savedEmail)) etEmail.setText(savedEmail);
+
+        String savedPassword= mPrefsUtils.getStringValue( PrefsUtils.PREFS_KEY_PASSWORD);
+        if(savedPassword!=null && InputUtils.isValidEmail(savedPassword)) etPassword.setText(savedPassword);
+
         etEmail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         etEmail.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         etEmail.setOnEditorActionListener((v, actionId, event) -> {
@@ -105,6 +110,7 @@ public class LoginActivity extends BaseActivity {
                     Log.d(TAG, "forgotClicked");
                     startActivity(new Intent(LoginActivity.this, PasswordResetActivity.class));
                 });
+        showSoftKeyboard();
     }
 
     private boolean checkFieldsCorrect(){
@@ -137,7 +143,9 @@ public class LoginActivity extends BaseActivity {
         hideSoftKeyboard();
         progressBar.setVisibility(View.VISIBLE);
         mDisposables.add(mRetroUtils.loginObservable(email,password).subscribe(responce -> {
-            Log.d(TAG, "actionLogin: "+responce.getSuccess());
+            Log.d(TAG, "actionLogin: "+responce);
+            mPrefsUtils.setStringValue(PrefsUtils.PREFS_KEY_EMAIL, email);
+            mPrefsUtils.setStringValue(PrefsUtils.PREFS_KEY_PASSWORD, password);
             progressBar.setVisibility(View.GONE);
             startActivity(new Intent(this, BottomBarActivity.class));
             finish();
@@ -152,6 +160,13 @@ public class LoginActivity extends BaseActivity {
         if(getCurrentFocus()!=null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
+    public void showSoftKeyboard() {
+        if(getCurrentFocus()!=null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.showSoftInputFromInputMethod(getCurrentFocus().getWindowToken(), 0);
         }
     }
 }

@@ -1,58 +1,70 @@
 package com.trimit.android.ui.signup;
 
-import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 
 import com.trimit.android.R;
-import com.trimit.android.ui.SignupBaseActivity;
+import com.trimit.android.utils.CustomEditText;
 import com.trimit.android.utils.PrefsUtils;
 
 import java.util.Calendar;
 
-public class SignupBirthdayActivity extends SignupBaseActivity {
 
+public class SignupBirthdayFragment extends SignupBaseFragment {
+    public static final String TAG = "SignupBirthdayFragment";
 
+    CustomEditText mEtBirthday;
 
+    public SignupBirthdayFragment() {
+
+    }
+
+    public static SignupBirthdayFragment newInstance() {
+        return new SignupBirthdayFragment();
+    }
+
+    @Nullable
     @Override
-    public void setupFields() {
-        setQuestion(getString(R.string.text_signup_dob));
-        etField2.setVisibility(View.VISIBLE);
-        etField2.setHint(getString(R.string.et_birthday));
-        etField2.setInputType(InputType.TYPE_CLASS_NUMBER);
-        etField2.addTextChangedListener(tw);
-        etField2.setImeOptions(EditorInfo.IME_ACTION_SEND);
-        etField2.setOnEditorActionListener((v, actionId, event) -> {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_signup_birthday, container, false);
+        setUpNextButton(view);
+        mEtBirthday=(CustomEditText) view.findViewById(R.id.et_dob);
+        mListener.setQuestion(getString(R.string.text_signup_dob));
+        mEtBirthday.setVisibility(View.VISIBLE);
+        mEtBirthday.setHint(getString(R.string.et_birthday));
+        mEtBirthday.setInputType(InputType.TYPE_CLASS_NUMBER);
+        mEtBirthday.addTextChangedListener(tw);
+        mEtBirthday.setImeOptions(EditorInfo.IME_ACTION_SEND);
+        mEtBirthday.setOnEditorActionListener((v, actionId, event) -> {
             boolean handled = false;
             if (actionId == EditorInfo.IME_ACTION_SEND) {
                 hideSoftKeyboard();
-                onClick(btnNext);
+                if(mFieldsValidator.checkFieldValid(PrefsUtils.PREFS_KEY_BIRTHDAY, mEtBirthday)){
+                    mDataProvider.getPrefs().setStringValue(PrefsUtils.PREFS_KEY_BIRTHDAY, mEtBirthday.getText().toString());
+                    mListener.onNextPressed(PrefsUtils.PREFS_KEY_BIRTHDAY);
+                }
                 handled = true;
             }
             return handled;
         });
+        mBtnNext.setOnClickListener(v -> {
+            if(mFieldsValidator.checkFieldValid(PrefsUtils.PREFS_KEY_BIRTHDAY, mEtBirthday)){
+                mDataProvider.getPrefs().setStringValue(PrefsUtils.PREFS_KEY_BIRTHDAY, mEtBirthday.getText().toString());
+                mListener.onNextPressed(PrefsUtils.PREFS_KEY_BIRTHDAY);
+            }
+        });
+        return view;
     }
 
-    @Override
-    public boolean checkFieldsCorrect() {
-        String textBirthday = etField2.getText().toString();
-        Log.d(TAG, "textBD: "+textBirthday+" "+textBirthday.matches("^[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]$"));
-        if(textBirthday.matches("^[0-9][0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]$")){
-            mPrefsUtils.setStringValue(PrefsUtils.PREFS_KEY_BIRTHDAY, textBirthday);
-            return true;
-        }
-        else return false;
-    }
 
-    @Override
-    public void nextActivity() {
-        Log.d(TAG, "nextActivity: SignupGenderActivity");
-        startActivity(new Intent(this, SignupGenderActivity.class));
-    }
     private TextWatcher tw = new TextWatcher() {
         private String current = "";
         private String ddmmyyyy = "DDMMYYYY";
@@ -99,8 +111,8 @@ public class SignupBirthdayActivity extends SignupBaseActivity {
 
                 sel = sel < 0 ? 0 : sel;
                 current = clean;
-                etField2.setText(current);
-                etField2.setSelection(sel < current.length() ? sel : current.length());
+                mEtBirthday.setText(current);
+                mEtBirthday.setSelection(sel < current.length() ? sel : current.length());
             }
         }
 

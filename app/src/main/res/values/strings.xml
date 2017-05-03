@@ -44,7 +44,7 @@
     <string name="text_signup_password">Create a password</string>
     <string name="text_signup_dob">Birthday?</string>
     <string name="text_signup_gender">Gender?</string>
-    <string name="text_signup_barber">Type of barbershop?</string>
+    <string name="text_signup_barber_type">Type of barbershop?</string>
     <string name="label_pwd_reset">Enter yur email to reset your password</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>

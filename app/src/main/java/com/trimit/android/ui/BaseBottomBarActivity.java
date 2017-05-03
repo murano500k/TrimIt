@@ -8,23 +8,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.trimit.android.App;
 import com.trimit.android.R;
-import com.trimit.android.net.RetroUtils;
-import com.trimit.android.utils.PrefsUtils;
 
-import javax.inject.Inject;
-
-public abstract class BaseBottomBarActivity extends BaseActivity implements OnFragmentInteractionListener {
+public abstract class BaseBottomBarActivity extends BaseActivity{
 
     private static final String TAG = "BaseBottomBarActivity";
 
     public static final String EXTRA_PAGE_ID = "EXTRA_PAGE_ID";
 
-    @Inject
-    public RetroUtils mRetroUtils;
-    @Inject
-    public PrefsUtils mPrefsUtils;
 
     protected int mMenuPageId;
     protected FrameLayout mContent;
@@ -49,11 +40,6 @@ public abstract class BaseBottomBarActivity extends BaseActivity implements OnFr
         }
     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((App)getApplicationContext()).getNetComponent().inject(this);
-    }
 
     protected void initLayout(){
         mContent = (FrameLayout) findViewById(R.id.content);
@@ -62,6 +48,7 @@ public abstract class BaseBottomBarActivity extends BaseActivity implements OnFr
         mNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         mMenuPageId=getMenuPageId();
     }
+
 
     public void setBottomBarStyle(int val){
         switch (val){
@@ -86,13 +73,7 @@ public abstract class BaseBottomBarActivity extends BaseActivity implements OnFr
     }
 
 
-    @Override
-    public PrefsUtils getPrefs() {
-        return mPrefsUtils;
-    }
 
-    @Override
-    public RetroUtils getRetro() {
-        return mRetroUtils;
-    }
+
+
 }

@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.trimit.android.App;
 import com.trimit.android.R;
-import com.trimit.android.ui.signup.SignupNameActivity;
+import com.trimit.android.ui.signup.SignupActivity;
 import com.trimit.android.utils.PrefsUtils;
 
 import javax.inject.Inject;
@@ -77,9 +77,11 @@ public class WelcomeActivity extends AppCompatActivity {
         switch (v.getId()){
             case R.id.btn_login:
                 startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
+                finish();
                 break;
             case R.id.btn_signup:
-                startActivity(new Intent(WelcomeActivity.this, SignupNameActivity.class));
+                startActivity(new Intent(WelcomeActivity.this, SignupActivity.class));
+                finish();
                 break;
         }
     }

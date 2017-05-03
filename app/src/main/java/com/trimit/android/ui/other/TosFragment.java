@@ -1,4 +1,4 @@
-package com.trimit.android.ui.search;
+package com.trimit.android.ui.other;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,16 +10,16 @@ import android.view.ViewGroup;
 import com.trimit.android.R;
 import com.trimit.android.ui.OnFragmentInteractionListener;
 
-public class SearchFragment extends Fragment {
-    public static final String TAG = "SearchFragment";
+public class TosFragment extends Fragment {
+    public static final String TAG = "TosFragment";
     private OnFragmentInteractionListener mListener;
 
-    public SearchFragment() {
+    public TosFragment() {
         // Required empty public constructor
     }
 
-    public static SearchFragment newInstance() {
-        SearchFragment fragment = new SearchFragment();
+    public static TosFragment newInstance() {
+        TosFragment fragment = new TosFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -33,9 +33,10 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        View view=inflater.inflate(R.layout.fragment_tos, container, false);
+        return view;
     }
+
 
     @Override
     public void onAttach(Context context) {

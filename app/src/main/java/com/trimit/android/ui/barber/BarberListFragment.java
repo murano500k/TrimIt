@@ -2,29 +2,33 @@ package com.trimit.android.ui.barber;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.trimit.android.R;
 import com.trimit.android.model.barber.Barber;
+import com.trimit.android.ui.DataProvider;
 import com.trimit.android.ui.OnFragmentInteractionListener;
+import com.trimit.android.utils.UriUtils;
 
 import java.util.List;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public class BarberListFragment extends Fragment implements  BarberAdapter.DistanceProvider, BarberAdapter.ItemClickListener  {
-    private static final String TAG = "HomeFragment";
+public class BarberListFragment extends BarberBaseFragment implements  BarberAdapter.DistanceProvider, BarberAdapter.ItemClickListener  {
+
+    public static final String TAG = "BarberListFragment";
     private OnFragmentInteractionListener mListener;
+    private DataProvider mDataProvider;
+
 
     private BarberAdapter mAdapter;
 
@@ -32,8 +36,9 @@ public class BarberListFragment extends Fragment implements  BarberAdapter.Dista
 
     private RecyclerView mRecyclerView;
 
-    private ProgressBar mProgress;
     CompositeDisposable mDisposables;
+
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
 
     public BarberListFragment() {
@@ -55,22 +60,41 @@ public class BarberListFragment extends Fragment implements  BarberAdapter.Dista
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.content_barber_list, container, false);
-        mProgress=(ProgressBar)view.findViewById(R.id.progress);
+        setRetainInstance(true);
+        View view=inflater.inflate(R.layout.fragment_barber_list, container, false);
+        setBackButton(view);
+        mSwipeRefreshLayout=(SwipeRefreshLayout)view.findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(
+                () -> {
+                    Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
+                    getData();
+                }
+        );
+
         mTextCounter=(TextView) view.findViewById(R.id.text_counter);
         mRecyclerView=(RecyclerView)view.findViewById(R.id.rv);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter=new BarberAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
-        mProgress.setVisibility(View.VISIBLE);
+        setCounter(0);
         return view;
+    }
+    public void getData(){
+        Log.d(TAG, "getData");
+        mDisposables.add(mDataProvider.getRetro().getBarbersObservable().subscribe(o -> {
+            Log.d(TAG, "getData: success="+o.getSuccess());
+            showData(o.getBarbers(), null);
+        },throwable -> {
+            throwable.printStackTrace();
+            showData(null, throwable.getMessage());
+        }));
     }
 
     public void showData(List<Barber> list, String errorMsg) {
-        mProgress.setVisibility(View.GONE);
+        mSwipeRefreshLayout.setRefreshing(false);
         if(errorMsg==null) {
-            //Log.d(TAG, "showData: "+list);
             mAdapter.addItems(list);
+            mAdapter.notifyDataSetChanged();
             setCounter(list.size());
         }else {
             Log.e(TAG, "showData: "+errorMsg );
@@ -79,7 +103,10 @@ public class BarberListFragment extends Fragment implements  BarberAdapter.Dista
     }
 
     private void setCounter(int count){
-        mTextCounter.setText(count+" barbers found");
+        mTextCounter.setVisibility(View.VISIBLE);
+        String text =count+" barbers found";
+        if(count==0) text+=". Swipe to refresh";
+        mTextCounter.setText(text);
     }
 
 
@@ -92,12 +119,13 @@ public class BarberListFragment extends Fragment implements  BarberAdapter.Dista
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-        mDisposables.add(mListener.getRetro().getBarbersObservable().subscribe(o -> {
-            Log.d(TAG, "getData: success="+o.getSuccess());
-            showData(o.getBarbers(), null);
-        },throwable -> {
-            showData(null, throwable.getMessage());
-        }));
+        if (context instanceof DataProvider) {
+            mDataProvider = (DataProvider) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement mDataProvider");
+        }
+        getData();
 
     }
 
@@ -105,19 +133,20 @@ public class BarberListFragment extends Fragment implements  BarberAdapter.Dista
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mDataProvider=null;
         mDisposables.dispose();
     }
 
     @Override
     public void itemClicked(Barber barber) {
         Toast.makeText(getContext(), barber.getBarberId()+" clicked", Toast.LENGTH_SHORT).show();
-        mListener.onFragmentInteraction(barber.getBarberId(), BarberDetailsFragment.class.getName());
+        mListener.onFragmentInteraction(UriUtils.getUri(BarberDetailsFragment.TAG, barber.getBarberId()));
     }
 
     @Override
     public float getDistance(LatLng point){
-        if(mListener.getPrefs().getUserLocation()!=null){
-            LatLng userLatLng=mListener.getPrefs().getUserLocation();
+        if(mDataProvider.getPrefs().getUserLocation()!=null){
+            LatLng userLatLng=mDataProvider.getPrefs().getUserLocation();
             return distance(userLatLng.getLatitude(),userLatLng.getLongitude(),point.getLatitude(), point.getLongitude());
         }
         return 0.0f;

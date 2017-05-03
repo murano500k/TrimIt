@@ -1,13 +1,23 @@
 package com.trimit.android.ui;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.trimit.android.R;
+import com.trimit.android.ui.barber.BarberDetailsFragment;
+import com.trimit.android.ui.barber.BarberListFragment;
+import com.trimit.android.ui.barber.BarberMapFragment;
+import com.trimit.android.ui.barber.BarberReviewsFragment;
 import com.trimit.android.ui.home.HomeFragment;
+import com.trimit.android.ui.other.TosFragment;
 import com.trimit.android.ui.profile.ProfileFragment;
 import com.trimit.android.ui.search.SearchFragment;
+import com.trimit.android.utils.UriUtils;
 
 public class BottomBarActivity extends BaseBottomBarActivity implements OnFragmentInteractionListener {
     private static final String TAG = "BottomBarActivity";
@@ -19,8 +29,6 @@ public class BottomBarActivity extends BaseBottomBarActivity implements OnFragme
         initLayout();
         setContent(savedInstanceState);
     }
-
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -44,66 +52,164 @@ public class BottomBarActivity extends BaseBottomBarActivity implements OnFragme
             }
         }
         openTab(mMenuPageId);
-        mNavigationView.setSelectedItemId(mMenuPageId);
     }
 
 
-
+    @Override
     protected boolean openTab(int id) {
         mMenuPageId = id;
         switch (id) {
             case R.id.navigation_home:
-                showHome();
+                Log.d(TAG, "show home");
+                onFragmentInteraction(UriUtils.getUri(HomeFragment.TAG));
                 return true;
             case R.id.navigation_search:
-                showSearch();
+                Log.d(TAG, "show search");
+                onFragmentInteraction(UriUtils.getUri(SearchFragment.TAG));
                 return true;
             case R.id.navigation_profile:
-                showProfile();
+                Log.d(TAG, "show profile");
+                onFragmentInteraction(UriUtils.getUri(ProfileFragment.TAG));
                 return true;
             case R.id.navigation_appointment:
-                showAppointment();
+                Log.d(TAG, "showAppointment");
+                Toast.makeText(this, "showAppointment not implemented", Toast.LENGTH_SHORT).show();
                 return false;
             case R.id.navigation_loyalty:
-                showLoyalty();
+                Log.d(TAG, "showLoyalty");
+                Toast.makeText(this, "showLoyalty not implemented", Toast.LENGTH_SHORT).show();
                 return false;
         }
         return false;
     }
 
-    protected void showAppointment() {
-        Log.d(TAG, "showAppointment");
-        Toast.makeText(this, "showAppointment not implemented", Toast.LENGTH_SHORT).show();
-    }
 
-    protected void showLoyalty() {
-        Log.d(TAG, "showLoyalty");
-        Toast.makeText(this, "showLoyalty not implemented", Toast.LENGTH_SHORT).show();
-    }
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        String screen = uri.getLastPathSegment();
+        String param = uri.getFragment();
+        Fragment fragment;
+        String tag;
+        if(TextUtils.equals(screen, TosFragment.TAG)){
 
-    protected void showHome() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content, HomeFragment.newInstance())
-                .commit();
-        setBottomBarStyle(1);
-    }
+            fragment=TosFragment.newInstance();
+            tag=TosFragment.TAG;
 
-    protected void showSearch() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content, SearchFragment.newInstance())
-                .commit();
-        setBottomBarStyle(2);
-    }
+            setBottomBarSelectedItem(R.id.navigation_home);
 
-    protected void showProfile() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content, ProfileFragment.newInstance())
-                .commit();
-        setBottomBarStyle(3);
+        }else if(TextUtils.equals(screen, HomeFragment.TAG)){
+
+            fragment=HomeFragment.newInstance();
+            tag=HomeFragment.TAG;
+
+            setBottomBarSelectedItem(R.id.navigation_home);
+
+        }else if(TextUtils.equals(screen, ProfileFragment.TAG)){
+
+            fragment=ProfileFragment.newInstance();
+            tag=ProfileFragment.TAG;
+
+            setBottomBarSelectedItem(R.id.navigation_profile);
+
+        }else if(TextUtils.equals(screen, SearchFragment.TAG)){
+
+            fragment=SearchFragment.newInstance();
+            tag=SearchFragment.TAG;
+
+            setBottomBarSelectedItem(R.id.navigation_search);
+
+        }else if(TextUtils.equals(screen, BarberListFragment.TAG)){
+
+            fragment=BarberListFragment.newInstance();
+            tag=BarberListFragment.TAG;
+
+        }else if(TextUtils.equals(screen, BarberDetailsFragment.TAG)){
+            if(param==null) throw new NullPointerException("param is required for "+screen);
+            int id = Integer.valueOf(param);
+
+            fragment=BarberDetailsFragment.newInstance(id);
+            tag=BarberDetailsFragment.TAG;
+
+        }else if(TextUtils.equals(screen, BarberMapFragment.TAG)){
+            if(param==null) throw new NullPointerException("param is required for "+screen);
+            int id = Integer.valueOf(param);
+
+            fragment=BarberMapFragment.newInstance(id);
+            tag=BarberMapFragment.TAG;
+
+        }else {
+            String msg = screen + getString(R.string.not_implemented);
+            Log.w(TAG, msg);
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Log.d(TAG, "onFragmentInteraction: "+tag);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content, fragment);
+
+        String barberString = getString(R.string.title_barber);
+        if(tag.contains(barberString) || tag.contains(TosFragment.TAG)) {
+            Log.d(TAG, "onFragmentInteraction: add to stack");
+            transaction.addToBackStack(tag);
+        }
+        if(tag.contains(barberString)){
+            setBottomBarStyle(3);
+        }
+        transaction.commit();
     }
 
     @Override
-    public void onFragmentInteraction(int barberId, String screenName) {
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if(count>0){
+            String tag = getSupportFragmentManager().getBackStackEntryAt(0).getName();
+            if(
+                    TextUtils.equals(tag, HomeFragment.TAG)
+                    ){
+                setBottomBarStyle(1);
+            } else if(
+                    TextUtils.equals(tag, ProfileFragment.TAG)
+                    ){
+                setBottomBarStyle(3);
+            } else if(
+                    TextUtils.equals(tag, SearchFragment.TAG)
+                    ){
+                setBottomBarStyle(2);
+            } else if(
+                            TextUtils.equals(tag, BarberDetailsFragment.TAG) ||
+                            TextUtils.equals(tag, BarberListFragment.TAG) ||
+                            TextUtils.equals(tag, BarberMapFragment.TAG) ||
+                            TextUtils.equals(tag, BarberReviewsFragment.TAG)
+                    ){
+                setBottomBarStyle(3);
+            } else {
+                Log.e(TAG, "onBackPressed: TAG no match"+tag);
+                super.onBackPressed();
+                return;
+            }
+            Log.d(TAG, "popBackStack: "+tag);
+            getSupportFragmentManager().popBackStack();
+        } else super.onBackPressed();
+    }
 
+    private void setBottomBarSelectedItem(int itemId) {
+        Log.d(TAG, "setBottomBarSelectedItem: "+itemId);
+        switch (itemId) {
+            case R.id.navigation_home:
+                setBottomBarStyle(1);
+                break;
+            case R.id.navigation_search:
+                setBottomBarStyle(2);
+                break;
+            case R.id.navigation_profile:
+                setBottomBarStyle(3);
+                break;
+            default:
+                Log.e(TAG, "setBottomBarSelectedItem: " +itemId +" no such item");
+                return;
+        }
+        mMenuPageId=itemId;
+        mNavigationView.setSelectedItemId(mMenuPageId);
     }
 }

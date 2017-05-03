@@ -3,18 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.trimit.android.ui.barber.BarberMapFragment">
 
 
+    <include
+        layout="@layout/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        mapbox:layout_constraintBottom_toTopOf="@+id/include"
+        mapbox:layout_constraintBottom_toTopOf="@+id/item_barber"
         mapbox:layout_constraintLeft_toLeftOf="parent"
         mapbox:layout_constraintRight_toRightOf="parent"
-        mapbox:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         mapbox:mapbox_cameraTargetLat="40.73581"
         mapbox:mapbox_cameraTargetLng="-73.99155"
         mapbox:mapbox_cameraZoom="11"
@@ -22,7 +30,6 @@
         android:layout_marginBottom="8dp"
         />
     <include
-        android:id="@+id/include"
         layout="@layout/item_barber"
         android:layout_width="368dp"
         android:layout_height="0dp"
@@ -34,7 +41,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         mapbox:layout_constraintHorizontal_bias="0.0"
-        mapbox:layout_constraintBottom_toTopOf="@+id/include2" />
+        mapbox:layout_constraintBottom_toTopOf="@+id/btn_book_now" />
     <include
         layout="@layout/btn_book_now"
         android:layout_width="192dp"
@@ -45,7 +52,6 @@
         android:layout_marginRight="8dp"
         mapbox:layout_constraintRight_toRightOf="parent"
         android:layout_marginLeft="8dp"
-        mapbox:layout_constraintLeft_toLeftOf="parent"
-        android:id="@+id/include2" />
+        mapbox:layout_constraintLeft_toLeftOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

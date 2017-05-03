@@ -11,16 +11,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
+        <include
+            layout="@layout/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
         <ImageView
             android:id="@+id/img_barbershop_photo"
             android:layout_width="0dp"
             android:layout_height="100dp"
-            android:layout_marginTop="0dp"
             android:scaleType="fitXY"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:srcCompat="@drawable/img_map" />
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -57,13 +65,12 @@
             android:text="Joe"
             android:textColor="@color/colorBarIconDark"
 
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_stars" />
 
         <TextView
-            android:id="@+id/text_test"
+            android:id="@+id/text_address"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:text="test"
@@ -96,11 +103,10 @@
             android:id="@+id/img_example_1"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:srcCompat="@drawable/bg_signup_gradient_v2"
             android:padding="8dp"
 
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_test"
+            app:layout_constraintTop_toBottomOf="@+id/text_address"
             app:layout_constraintRight_toLeftOf="@+id/guideline4"
             app:layout_constraintBottom_toBottomOf="@+id/img_example_4"
             app:layout_constraintHorizontal_bias="0.0"
@@ -115,8 +121,7 @@
             android:paddingBottom="8dp"
             android:paddingLeft="8dp"
             app:layout_constraintLeft_toLeftOf="@+id/guideline4"
-            app:layout_constraintTop_toBottomOf="@+id/text_test"
-            app:srcCompat="@drawable/bg_signup_gradient_v3"
+            app:layout_constraintTop_toBottomOf="@+id/text_address"
             app:layout_constraintRight_toLeftOf="@+id/guideline5"
             />
 
@@ -129,8 +134,7 @@
             android:paddingRight="8dp"
             android:paddingLeft="4dp"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_test"
-            app:srcCompat="@drawable/bg_signup_gradient_v3"
+            app:layout_constraintTop_toBottomOf="@+id/text_address"
             app:layout_constraintLeft_toLeftOf="@+id/guideline5" />
 
         <ImageView
@@ -143,8 +147,7 @@
             android:paddingRight="4dp"
             app:layout_constraintLeft_toLeftOf="@+id/guideline4"
             app:layout_constraintTop_toBottomOf="@+id/img_example_2"
-            app:layout_constraintRight_toLeftOf="@+id/guideline5"
-            app:srcCompat="@drawable/bg_signup_gradient_v3" />
+            app:layout_constraintRight_toLeftOf="@+id/guideline5" />
 
         <ImageView
             android:id="@+id/img_example_5"
@@ -156,7 +159,6 @@
             android:paddingLeft="4dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_example_3"
-            app:srcCompat="@drawable/bg_signup_gradient_v3"
             app:layout_constraintHorizontal_bias="0.428"
             app:layout_constraintLeft_toLeftOf="@+id/guideline5" />
 
@@ -184,7 +186,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_map"
             app:layout_constraintRight_toLeftOf="@+id/img_stars_review"
-            android:layout_marginRight="8dp" />
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="8dp" />
         <ImageView
             android:id="@+id/img_stars_review"
             android:layout_width="96dp"
@@ -193,7 +197,8 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/img_map"
             app:srcCompat="@drawable/img_stars_0"
-            android:layout_marginRight="32dp" />
+            android:layout_marginRight="32dp"
+            android:layout_marginEnd="32dp" />
 
         <ImageView
             android:layout_width="0dp"
@@ -203,7 +208,6 @@
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="0dp"
             android:background="@color/cardview_dark_background"
             app:layout_constraintBottom_toTopOf="@+id/text_tos"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -213,7 +217,6 @@
             android:id="@+id/text_tos"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             android:layout_marginLeft="32dp"
             android:layout_marginRight="32dp"
             android:layout_marginTop="16dp"
@@ -221,7 +224,9 @@
             android:textColor="@color/colorBarIconDark"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/img_stars_review" />
+            app:layout_constraintTop_toBottomOf="@+id/img_stars_review"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp" />
 
         <include
             layout="@layout/btn_book_now"

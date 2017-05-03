@@ -20,32 +20,17 @@
         <activity android:name=".ui.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.LoginActivity" />
-        <activity android:name=".ui.signup.SignupNameActivity"
+        <activity android:name=".ui.signup.SignupActivity"
             android:exported="true"/>
-        <activity android:name=".ui.signup.SignupEmailActivity" />
-        <activity android:name=".ui.signup.SignupPasswordActivity" />
-        <activity
-            android:name=".ui.signup.SignupBirthdayActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.signup.SignupBarberActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.signup.SignupGenderActivity"
-            android:exported="true" />
         <activity
             android:name=".ui.PasswordResetActivity"
             android:exported="true" />
         <activity
             android:name=".ui.BottomBarActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ui.barber.BarberActivity"
             android:exported="true" />
     </application>
 </manifest>

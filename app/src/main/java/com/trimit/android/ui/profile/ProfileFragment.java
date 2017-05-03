@@ -15,8 +15,11 @@ import com.jakewharton.rxbinding2.view.RxView;
 import com.squareup.picasso.Picasso;
 import com.trimit.android.R;
 import com.trimit.android.model.getuser.User;
+import com.trimit.android.ui.DataProvider;
 import com.trimit.android.ui.OnFragmentInteractionListener;
 import com.trimit.android.ui.WelcomeActivity;
+import com.trimit.android.ui.other.TosFragment;
+import com.trimit.android.utils.UriUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,16 +27,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 
-import static android.content.ContentValues.TAG;
-
 public class ProfileFragment extends Fragment {
-    private static final String ARG_USERNAME = "ARG_USERNAME";
+    public static final String TAG = "ProfileFragment";
+    public static final String ARG_USERNAME = "ARG_USERNAME";
     private static final String ARG_PROFILE_PIC_URL = "ARG_PROFILE_PIC_URL";
 
     String mUserName;
     String mProfilePicUrl;
 
     private OnFragmentInteractionListener mListener;
+    private DataProvider mDataProvider;
     private TextView mLabelWelcome;
     private CircleImageView mProfilePic;
     private CompositeDisposable mDisposables;
@@ -68,23 +71,13 @@ public class ProfileFragment extends Fragment {
     }
     private void loadUserData() {
         Log.d(TAG, "loadUserData");
-        mDisposables.add(mListener.getRetro().getUserObservable().subscribe(responceGetUser -> {
-            if(responceGetUser.getSuccess() && responceGetUser.getUser().size()>0){
-                if(setUserData(responceGetUser.getUser().get(0))==1){
-                    if(mUserName!=null){
-                        String label  = getString(R.string.welcome)+" "+mUserName;
-                        mLabelWelcome.setText(label);
-                    }
-                    if(mProfilePicUrl!=null){
-                        Picasso.with(getContext()).load(mProfilePicUrl).into(mProfilePic);
-                    }
-                }
-            }
-            Log.e(TAG, "loadUserData: error" );
-        }, throwable -> {
-            throwable.printStackTrace();
-            Toast.makeText(getContext(), throwable.getMessage(), Toast.LENGTH_SHORT).show();
-        }));
+        if(mUserName!=null){
+            String label  = getString(R.string.welcome)+" "+mUserName;
+            mLabelWelcome.setText(label);
+        }
+        if(mProfilePicUrl!=null){
+            Picasso.with(getContext()).load(mProfilePicUrl).into(mProfilePic);
+        }
     }
 
     private int setUserData(User user) throws Exception{
@@ -97,7 +90,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.content_profile, container, false);
+        View view=inflater.inflate(R.layout.fragment_profile, container, false);
         mLabelWelcome = (TextView)view.findViewById(R.id.label_welcome);
         mProfilePic = (CircleImageView) view.findViewById(R.id.img_profile);
         setupMenuItems(view);
@@ -113,12 +106,19 @@ public class ProfileFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        if (context instanceof DataProvider) {
+            mDataProvider = (DataProvider) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mDataProvider = null;
         mDisposables.dispose();
     }
 
@@ -142,7 +142,7 @@ public class ProfileFragment extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aVoid -> {
                     Log.d(TAG, "item_tos clicked");
-                    notImplemented();
+                    mListener.onFragmentInteraction(UriUtils.getUri(TosFragment.TAG));
                 });
         RxView.clicks(v.findViewById(R.id.item_help))
                 .debounce(500, TimeUnit.MILLISECONDS)
@@ -168,7 +168,7 @@ public class ProfileFragment extends Fragment {
 
     private void signOut() {
         Log.d(TAG, "signOut: ");
-        mListener.getPrefs().signOut();
+        mDataProvider.getPrefs().signOut();
         startActivity(new Intent(getContext(), WelcomeActivity.class));
         getActivity().finish();
     }

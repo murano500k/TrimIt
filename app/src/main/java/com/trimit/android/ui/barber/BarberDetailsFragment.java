@@ -18,21 +18,24 @@ import com.trimit.android.model.barber.Barber;
 import com.trimit.android.model.barber.BarberResponce;
 import com.trimit.android.model.barber.Gallery;
 import com.trimit.android.model.barber.Photo;
+import com.trimit.android.ui.DataProvider;
 import com.trimit.android.ui.OnFragmentInteractionListener;
+import com.trimit.android.ui.other.TosFragment;
 import com.trimit.android.utils.ImageResUtils;
+import com.trimit.android.utils.UriUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static android.content.ContentValues.TAG;
-
-public class BarberDetailsFragment extends Fragment {
+public class BarberDetailsFragment extends BarberBaseFragment {
+    public static final String TAG = "BarberDetailsFragment";
     private static final String ARG_BARBER_ID = "ARG_BARBER_ID";
 
     private int mBarberId;
 
+    private DataProvider mDataProvider;
     private OnFragmentInteractionListener mListener;
 
     private TextView textName, textTest, textReviews, textTos;
@@ -71,10 +74,11 @@ public class BarberDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_barber_details, container, false);
+        setBackButton(view);
         textName=(TextView) view.findViewById(R.id.text_name);
         textReviews=(TextView) view.findViewById(R.id.text_review);
         textTos=(TextView) view.findViewById(R.id.text_tos);
-        textTest=(TextView) view.findViewById(R.id.text_test);
+        textTest=(TextView) view.findViewById(R.id.text_address);
         imgBarbershop=(ImageView)view.findViewById(R.id.img_barbershop_photo);
         imgExample1=(ImageView)view.findViewById(R.id.img_example_1);
         imgExample2=(ImageView)view.findViewById(R.id.img_example_2);
@@ -92,16 +96,23 @@ public class BarberDetailsFragment extends Fragment {
         });
         imgMap.setOnClickListener(v -> {
             Log.w(TAG, "map clicked");
-            Toast.makeText(getContext(), getString(R.string.not_implemented), Toast.LENGTH_SHORT).show();
+            mListener.onFragmentInteraction(UriUtils.getUri(BarberMapFragment.TAG,mBarberId));
         });
         textReviews.setOnClickListener(v -> {
             Log.w(TAG, "Reviews clicked");
-            Toast.makeText(getContext(), getString(R.string.not_implemented), Toast.LENGTH_SHORT).show();
+            mListener.onFragmentInteraction(UriUtils.getUri(BarberReviewsFragment.TAG,mBarberId));
         });
         textTos.setOnClickListener(v -> {
             Log.w(TAG, "Tos clicked");
-            Toast.makeText(getContext(), getString(R.string.not_implemented), Toast.LENGTH_SHORT).show();
+            mListener.onFragmentInteraction(UriUtils.getUri(TosFragment.TAG));
         });
+        mDataProvider.getRetro()
+                .getBarberObservable(String.valueOf(mBarberId))
+                .subscribe(this::initViews,
+                        throwable -> {
+                            throwable.printStackTrace();
+                            Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                        });
         return view;
     }
 
@@ -114,22 +125,17 @@ public class BarberDetailsFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        if (context instanceof DataProvider) {
+            mDataProvider = (DataProvider) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement mDataProvider");
+        }
         if(Integer.MAX_VALUE==mBarberId) {
             Toast.makeText(getContext(),"no barberId", Toast.LENGTH_SHORT).show();
             return;
         }
-        /*mListener.getRetro().getBarberObject(mBarberId).subscribe(o -> {
-            Log.d(TAG, "getBarberObject: "+o);
-        }, Throwable::printStackTrace);*/
-        mListener.getRetro()
-                .getBarberObservable(String.valueOf(mBarberId))
-                .subscribe(o -> {
-                    initViews(o);
-                },
-                        throwable -> {
-                            throwable.printStackTrace();
-                            Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
-                        });
+
     }
 
     private void initViews(BarberResponce responce) throws Exception{
@@ -191,6 +197,7 @@ public class BarberDetailsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mDataProvider = null;
     }
 
 }

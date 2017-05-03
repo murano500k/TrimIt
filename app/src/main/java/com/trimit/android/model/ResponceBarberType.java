@@ -4,22 +4,22 @@ package com.trimit.android.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class ResponceBarberType {
 
     @SerializedName("barber_type")
     @Expose
-    private List<BarberType> barberType = null;
+    private ArrayList<BarberType> barberType = null;
     @SerializedName("success")
     @Expose
     private Boolean success;
 
-    public List<BarberType> getBarberType() {
+    public ArrayList<BarberType> getBarberType() {
         return barberType;
     }
 
-    public void setBarberType(List<BarberType> barberType) {
+    public void setBarberType(ArrayList<BarberType> barberType) {
         this.barberType = barberType;
     }
 
